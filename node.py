@@ -126,39 +126,54 @@ class NodeGroup(object):
 
     def walkRight(self, row, col):
         '''Try and find nodes to the right'''
-        dx = 1
-        while self.isValidPath(row, col+dx, '-'):
-            dx += 1
-        if not self.isOutOfBounds(row, col+dx):
-            self.createNodeFromLayout(row, col+dx)
-            self.linkNodes(row, col, row, col+dx)
+        self.walk(row, col, '-', dx=1)
+        #dx = 1
+        #while self.isValidPath(row, col+dx, '-'):
+        #    dx += 1
+        #if not self.isOutOfBounds(row, col+dx):
+        #    self.createNodeFromLayout(row, col+dx)
+        #    self.linkNodes(row, col, row, col+dx)
 
     def walkLeft(self, row, col):
         '''Try and find nodes to the left'''
-        dx = 1
-        while self.isValidPath(row, col-dx, '-'):
-            dx += 1
-        if not self.isOutOfBounds(row, col-dx):
-            self.createNodeFromLayout(row, col-dx)
-            self.linkNodes(row, col, row, col-dx)
+        self.walk(row, col, '-', dx=-1)
+        #dx = 1
+        #while self.isValidPath(row, col-dx, '-'):
+        ##    dx += 1
+        #if not self.isOutOfBounds(row, col-dx):
+        #    self.createNodeFromLayout(row, col-dx)
+        #    self.linkNodes(row, col, row, col-dx)
 
     def walkDown(self, row, col):
         '''Try and find nodes down'''
-        dy = 1
-        while self.isValidPath(row+dy, col, '|'):
-            dy += 1
-        if not self.isOutOfBounds(row+dy, col):
-            self.createNodeFromLayout(row+dy, col)
-            self.linkNodes(row, col, row+dy, col)
+        self.walk(row, col, '|', dy=1)
+        #dy = 1
+        #while self.isValidPath(row+dy, col, '|'):
+        #    dy += 1
+        ##if not self.isOutOfBounds(row+dy, col):
+        #    self.createNodeFromLayout(row+dy, col)
+        #    self.linkNodes(row, col, row+dy, col)
 
     def walkUp(self, row, col):
         '''Try and find nodes up'''
-        dy = 1
-        while self.isValidPath(row-dy, col, '|'):
-            dy += 1
-        if not self.isOutOfBounds(row-dy, col):
-            self.createNodeFromLayout(row-dy, col)
-            self.linkNodes(row, col, row-dy, col)
+        self.walk(row, col, '|', dy=-1)
+        #dy = 1
+        #while self.isValidPath(row-dy, col, '|'):
+        #    dy += 1
+        #if not self.isOutOfBounds(row-dy, col):
+        #    self.createNodeFromLayout(row-dy, col)
+        #    self.linkNodes(row, col, row-dy, col)
+            
+    def walk(self, row, col, val, dx=0, dy=0):
+        '''Find a node in the given dx or dy direction by tracing the val'''
+        while self.isValidPath(row+dy, col+dx):
+            if dx != 0:
+                dx += dx / abs(dx)
+            if dy != 0:
+                dy += dy / abs(dy)
+        if not self.isOutOfBounds(row+dy, col+dx):
+            self.createNodeFromLayout(row+dy, col+dx)
+            self.linkNodes(row, col, row+dy, col+dx)
 
     def render(self, screen):
         for node in self.nodeDict.values():
