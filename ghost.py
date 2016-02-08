@@ -118,4 +118,10 @@ class Clyde(Ghost):
             self.goal = pacman.position
         else:
             self.goal = CLYDEGOAL
+            
+    def releaseFromHome(self):
+        self.move.releaseClydeFromHome()
+        
+    def sendHome(self):
+        self.move.sendClydeBackHome()
 
