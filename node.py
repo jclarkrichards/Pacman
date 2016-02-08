@@ -122,6 +122,10 @@ class NodeGroup(object):
         self.nodeDict[nodeVal1].hidden = []
         self.addHiddenNode(nodeVal1, nodeVal2)
         
+    def clearHiddenNodes(self, nodeVal):
+        '''Clear the hidden nodes'''
+        self.nodeDict[nodeVal].hidden = []
+        
     def walkRight(self, row, col):
         '''Try and find nodes to the right'''
         dx = 1
