@@ -44,6 +44,7 @@ class Level1Nodes(NodeGroup):
         self.addNeighborTwoWay(INKYHOMENODE, HOMECENTERNODE)
         self.addNeighborTwoWay(INKYHOMENODE, INKYHOMENODE+1)
         self.addNeighborTwoWay(INKYHOMENODE, INKYHOMENODE+2)
+        self.addHiddenNode(INKYHOMENODE, HOMECENTERNODE)
 
     def setClydeNodes(self):
         x, y = self.nodeDict[HOMECENTERNODE].position.toTuple()
