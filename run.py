@@ -7,6 +7,8 @@ from groups import GhostGroup
 from levelnodes import Level1Nodes
 from pellets import PelletGroup
 
+#class Game(object):
+    #def __init__(self):
 pygame.init()
 screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
 background = pygame.surface.Surface(SCREENSIZE).convert()
@@ -20,7 +22,8 @@ start = False
 
 pellets = PelletGroup('pellet_map.txt')
 pellets.setupPellets()
-
+        
+    #def run(self):
 while True:
     dt = clock.tick(30) / 1000.0
     if start:
@@ -43,7 +46,6 @@ while True:
         ghosts.setGoal(pacman)
         ghosts.update(dt)
         ghosts.checkPacmanCollide(pacman)
-        #pellets.checkCollision(pacman)
         if pellets.numEaten == 40:
             ghosts.inky.releaseFromHome()
         
@@ -53,4 +55,7 @@ while True:
     pacman.render(screen)
     ghosts.render(screen)
     pygame.display.update()
+            
+#game = Game()
+#game.run()
 
