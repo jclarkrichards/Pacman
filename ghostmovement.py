@@ -39,6 +39,7 @@ class FourWayGhost(FourWayContinuous):
         pass
     
     def chooseDirection(self):
+        '''Choose a direction that brings the entity closer to the goal'''
         if len(self.validDirections) > 1:
             d = []
             for direction in self.validDirections:
