@@ -14,14 +14,14 @@ class Ghost(object):
         self.goal = Vector2D(10*TILEWIDTH,15*TILEHEIGHT)
         self.mode = SCATTER
         self.position = nodes[nodeVal].position
-        self.mover = FourWayGhost(nodes, nodeVal, self)
+        self.move = FourWayGhost(nodes, nodeVal, self)
         
     def checkModeChange(self, modeObj):
         if modeObj.modeChange:
             self.mode = modeObj.mode
             
     def update(self, dt):
-        self.mover.update(dt)
+        self.move.update(dt)
 
     def attack(self):
         pass
@@ -82,6 +82,10 @@ class Inky(Ghost):
     def attack(self, pacman, blinky):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
                     - blinky.position
+                    
+    def releaseFromHome(self):
+        '''Release Inky from his home'''
+        self.move.releaseInkyFromHome()
 
 class Clyde(Ghost):
     def __init__(self, nodes):
