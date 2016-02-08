@@ -7,14 +7,14 @@ from constants import *
 from levelnodes import Level1Nodes
 
 class Ghost(object):
-    def __init__(self, node):
+    def __init__(self, nodes, nodeVal):
         self.dim = ENTITYSIZE
         self.COLOR = BLUE
         self.speed = SPEED
         self.goal = Vector2D(10*TILEWIDTH,15*TILEHEIGHT)
         self.mode = SCATTER
-        self.position = node.position
-        self.mover = FourWayGhost(node, self)
+        self.position = nodes[nodeVal].position
+        self.mover = FourWayGhost(nodes, nodeVal, self)
         
     def checkModeChange(self, modeObj):
         if modeObj.modeChange:
@@ -46,7 +46,7 @@ class Ghost(object):
 
 class Blinky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes.nodeDict[HOMEBASENODE])
+        Ghost.__init__(self, nodes, HOMEBASENODE)
         self.COLOR = RED
         self.scatterGoal = BLINKYGOAL
         
@@ -56,7 +56,7 @@ class Blinky(Ghost):
 
 class Pinky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes.nodeDict[PINKYHOMENODE])
+        Ghost.__init__(self, nodes, PINKYHOMENODE)
         self.COLOR = PINK
         self.scatterGoal = PINKYGOAL
 
@@ -65,7 +65,7 @@ class Pinky(Ghost):
 
 class Inky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes.nodeDict[INKYHOMENODE])
+        Ghost.__init__(self, nodes, INKYHOMENODE)
         self.COLOR = BLUE
         self.scatterGoal = INKYGOAL
         
@@ -85,7 +85,7 @@ class Inky(Ghost):
 
 class Clyde(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes.nodeDict[CLYDEHOMENODE])
+        Ghost.__init__(self, nodes, CLYDEHOMENODE)
         self.COLOR = TEAL
         self.scatterGoal = CLYDEGOAL
         
