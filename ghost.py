@@ -55,6 +55,9 @@ class Ghost(object):
         pygame.draw.circle(screen, self.COLOR, (int(x), int(y)), 8)
         #screen.blit(self.frameset[self.iframe], (x-16, y-16))
 
+#==============================================================================
+# INSTANCES OF THE GHOST CLASS:  BLINKY, PINKY, INKY, CLYDE
+#==============================================================================
 class Blinky(Ghost):
     def __init__(self, nodes):
         Ghost.__init__(self, nodes, HOMEBASENODE)
@@ -64,7 +67,7 @@ class Blinky(Ghost):
     def attack(self, pacman):
         self.goal = pacman.position
 
-
+#==============================================================================
 class Pinky(Ghost):
     def __init__(self, nodes):
         Ghost.__init__(self, nodes, PINKYHOMENODE)
@@ -74,6 +77,7 @@ class Pinky(Ghost):
     def attack(self, pacman):
         self.goal = pacman.position+DIRECTIONS[pacman.direction]*TILES4
 
+#==============================================================================
 class Inky(Ghost):
     def __init__(self, nodes):
         Ghost.__init__(self, nodes, INKYHOMENODE)
@@ -101,6 +105,7 @@ class Inky(Ghost):
     def sendHome(self):
         self.move.sendInkyBackHome()
 
+#==============================================================================
 class Clyde(Ghost):
     def __init__(self, nodes):
         Ghost.__init__(self, nodes, CLYDEHOMENODE)
