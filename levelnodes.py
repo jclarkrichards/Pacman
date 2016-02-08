@@ -61,4 +61,12 @@ class Level1Nodes(NodeGroup):
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
+        
+    def sendInkyBackHome(self):
+        '''Send Inky back home.  Usually after being eaten'''
+        self.clearHiddenNodes()
+        self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
+        self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
+        self.addHiddenNode(HOMEBASENODE, 23)
+        self.addHiddenNode(HOMEBASENODE, 25)
 
