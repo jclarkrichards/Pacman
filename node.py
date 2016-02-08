@@ -99,17 +99,10 @@ class NodeGroup(object):
         '''Remove a neighbor from a node'''
         node = self.nodeDict[nodeVal1]
         node2 = self.nodeDict[nodeVal2]
-        #tempVec = node2.position - node.position
-        #tempVec = tempVec.normalize()
         for key in node.neighbors.keys():
             if node.neighbors[key] == node2:
                 junk = node.neighbors.pop(key)
                 break
-        #     if key == tempVec:
-        #         junk = self.nodeDict[nodeVal].neighbors.pop(key)
-        #index = node.neighbors.index(node2)
-        #junk = node.neighbors.pop(index)
-        #junk = node.directions.pop(index)
 
     def removeNeighborTwoWay(self, nodeVal, neighborVal):
         self.removeNeighborOneWay(nodeVal, neighborVal)
@@ -123,6 +116,15 @@ class NodeGroup(object):
             num += 1
             self.nodeDict[num] = Node(pos)
 
+    def addHiddenNode(self, nodeVal1, nodeVal2):
+        '''Add nodeVal2 as a hidden node to nodeVal1'''
+        self.nodeDict[nodeVal1].hidden.append(self.nodeDict[nodeVal1].neighbors[nodeVal2])
+        
+    def clearAndAddHidden(self, nodeVal1, nodeVal2):
+        '''Clear the hidden nodes and add a new hidden node'''
+        self.nodeDict[nodeVal1].hidden = []
+        self.addHiddenNode(nodeVal1, nodeVal2)
+        
     def walkRight(self, row, col):
         '''Try and find nodes to the right'''
         dx = 1
