@@ -9,8 +9,8 @@ class Level1Nodes(NodeGroup):
         self.setPortal()
         
     def setPortal(self):
-        self.nodeDict[35].portal = self.nodeDict[31]
-        self.nodeDict[31].portal = self.nodeDict[35]
+        self.nodeDict[35].portal = 31 #self.nodeDict[31]
+        self.nodeDict[31].portal = 35 #self.nodeDict[35]
 
     def setPacNode(self):
         '''Set Pacmans start node and position.  Pass into Pacman object'''
