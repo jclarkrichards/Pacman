@@ -55,6 +55,14 @@ class Level1Nodes(NodeGroup):
         self.addNeighborTwoWay(CLYDEHOMENODE, CLYDEHOMENODE+1)
         self.addNeighborTwoWay(CLYDEHOMENODE, CLYDEHOMENODE+2)
         
+    def releaseBlinkyFromHome(self):
+        self.clearHiddenNodes(BLINKYHOMENODE)
+        self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
+        
+    def releasePinkyFromHome(self):
+        self.clearHiddenNodes(PINKYHOMENODE)
+        self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
+        
     def releaseInkyFromHome(self):
         '''Allow Inky to leave home'''
         self.clearHiddenNodes(INKYHOMENODE)
@@ -62,11 +70,35 @@ class Level1Nodes(NodeGroup):
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
+    def releaseClydFromHome(self):
+        self.clearHiddenNodes(CLYDEHOMENODE)
+        self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+1)
+        self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+2)
+        self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
+        
+    def sendBlinkyBackHome(self):
+        self.clearHiddenNodes(BLINKYHOMENODE)
+        self.addHiddenNode(HOMEBASENODE, 23)
+        self.addHiddenNode(HOMEBASENODE, 25)
+        
+    def sendPinkyBackHome(self):
+        self.clearHiddenNodes(PINKYHOMENODE)
+        self.addHiddenNode(HOMEBASENODE, 23)
+        self.addHiddenNode(HOMEBASENODE, 25)
+        
     def sendInkyBackHome(self):
         '''Send Inky back home.  Usually after being eaten'''
         self.clearHiddenNodes(INKYHOMENODE)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
+        self.addHiddenNode(HOMEBASENODE, 23)
+        self.addHiddenNode(HOMEBASENODE, 25)
+        
+        def sendClydeBackHome(self):
+        '''Send Inky back home.  Usually after being eaten'''
+        self.clearHiddenNodes(CLYDEHOMENODE)
+        self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+1)
+        self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, 23)
         self.addHiddenNode(HOMEBASENODE, 25)
 
