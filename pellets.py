@@ -2,7 +2,7 @@
 import pygame
 from constants import *
 from numpy import loadtxt
-from collision import circleCircle
+from collision import circleCircle as collided
 
 class Pellet(object):
     def __init__(self, position):
@@ -44,8 +44,7 @@ class PelletGroup(object):
     def update(self, pacman, gameMode):
         pList = [p for p in self.pelletList if p.alive]
         for pellet in pList:
-            collided = circleCircle(pacman, pellet)
-            if collided:
+            if collided(pacman, pellet):
                 self.numEaten += 1
                 pellet.alive = False
                 if pellet.type == POWERPELLET:
