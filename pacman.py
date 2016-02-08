@@ -16,6 +16,7 @@ class PacMan(object):
         self.mover = FourWayContinuous(nodes, nodeVal, self)
         self.direction = LEFT
         self.radius = 8
+        self.alive = True
         
     def update(self, dt):
         self.mover.update(dt)
