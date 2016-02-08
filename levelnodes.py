@@ -17,7 +17,7 @@ class Level1Nodes(NodeGroup):
         node1 = self.nodeDict[43]
         node2 = self.nodeDict[45]
         position = (node1.position + node2.position) / 2
-        return position, node2
+        return position, 45
     
     def adjustGhostNodes(self):
         '''Some nodes have to be disconnected'''
