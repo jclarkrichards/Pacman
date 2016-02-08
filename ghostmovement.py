@@ -6,10 +6,10 @@ from constants import *
 from random import randint
 
 class FourWayGhost(FourWayContinuous):
-    def __init__(self, node, entity):
+    def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        FourWayContinuous.__init__(self, node, entity)
+        FourWayContinuous.__init__(self, nodes, nodeVal, entity)
         self.chooseDirection()
         self.setEntityDirection(self.direction)
         
