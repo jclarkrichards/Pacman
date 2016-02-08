@@ -20,7 +20,7 @@ class Level1Nodes(NodeGroup):
         return position, 45
     
     def adjustGhostNodes(self):
-        '''Some nodes have to be disconnected'''
+        '''Some nodes have to be disconnected for the ghosts'''
         self.removeNeighborOneWay(23, 22)
         self.removeNeighborOneWay(25, 24)
         self.removeNeighborTwoWay(23, 25)
@@ -57,14 +57,14 @@ class Level1Nodes(NodeGroup):
         
     def releaseInkyFromHome(self):
         '''Allow Inky to leave home'''
-        self.clearHiddenNodes()
+        self.clearHiddenNodes(INKYHOMENODE)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
     def sendInkyBackHome(self):
         '''Send Inky back home.  Usually after being eaten'''
-        self.clearHiddenNodes()
+        self.clearHiddenNodes(INKYHOMENODE)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, 23)
