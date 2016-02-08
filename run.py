@@ -42,6 +42,7 @@ while True:
         pacman.update(dt)
         ghosts.setGoal(pacman)
         ghosts.update(dt)
+        ghosts.checkPacmanCollision(pacman)
         #pellets.checkCollision(pacman)
         
     screen.blit(background, (0,0))
