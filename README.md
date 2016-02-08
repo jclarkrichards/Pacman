@@ -7,6 +7,6 @@ Currently in order to start, you need to press the 'h' key.  This is just for te
 
 The pellets have their own text file since that's a lot easier than manually coding in their positions.  In the pellets txt file, 'p' stands for a regular pellet and 'P' stands for a power pellet.  
 
-The ghosts have different modes that they can be in, and they can only be in one mode at a time.  The modes are 'SCATTER', 'CHASE', FREIGHT', and 'FLEE'.  The game periodically switches between scatter and chase modes.  When pacman eats a power pellet, the ghosts enter freight mode.  If while in freight mode pacman eats them, then the ghosts enter flee mode.  During flee mode they run back home, after which they will enter scatter mode.  After freight mode, the ghosts enter scatter mode and things return to normal.  
+The ghosts have different modes that they can be in, and they can only be in one mode at a time.  The modes are 'SCATTER', 'ATTACK', FREIGHT', and 'FLEE'.  The game periodically switches between scatter and chase modes.  When pacman eats a power pellet, the ghosts enter freight mode.  If while in freight mode pacman eats them, then the ghosts enter flee mode.  During flee mode they run back home, after which they will enter scatter mode.  After freight mode, the ghosts enter scatter mode and things return to normal.  
 
 
