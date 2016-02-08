@@ -8,8 +8,7 @@ class Node(object):
     def __init__(self, pos):
         self.position = Vector2D(pos)
         self.neighbors = {}
-        #self.neighbors = []
-        #self.directions = []
+        self.hidden = []
         self.COLOR = WHITE
         self.portal = None
 
