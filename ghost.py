@@ -19,8 +19,10 @@ class Ghost(object):
         self.fleeGoal = self.move.nodes[HOMEBASENODE].position
         
     def checkModeChange(self, modeObj):
+        '''Change the ghosts mode if ghost is not in FLEE mode'''
         if modeObj.modeChange:
-            self.mode = modeObj.mode
+            if self.mode != FLEE:
+                self.mode = modeObj.mode
             
     def update(self, dt):
         self.move.update(dt)
