@@ -80,7 +80,6 @@ class NodeGroup(object):
             
     def addNeighborOneWay(self, nodeVal1, nodeVal2):
         '''Set the node at nodeVal2 as a neighbor of node at nodeVal1'''
-        #self.nodeDict[nodeVal].neighbors.append(self.nodeDict[neighborVal])
         tempVec = self.nodeDict[nodeVal2].position - \
                   self.nodeDict[nodeVal1].position
         tempVec = tempVec.normalize()
@@ -88,19 +87,16 @@ class NodeGroup(object):
             if DIRECTIONS[key] == tempVec:
                 direction = key
                 break
-        #self.nodeDict[nodeVal].directions.append(tempVec)
-        self.nodeDict[nodeVal1].neighbors[direction] = self.nodeDict[nodeVal2]
+        self.nodeDict[nodeVal1].neighbors[direction] = nodeVal2
 
     def addNeighborTwoWay(self, nodeVal, neighborVal):
         self.addNeighborOneWay(nodeVal, neighborVal)
         self.addNeighborOneWay(neighborVal, nodeVal)
 
     def removeNeighborOneWay(self, nodeVal1, nodeVal2):
-        '''Remove a neighbor from a node'''
-        node = self.nodeDict[nodeVal1]
-        node2 = self.nodeDict[nodeVal2]
+        '''Remove nodeVal2 from a nodeVal1 as a neighbor'''
         for key in node.neighbors.keys():
-            if node.neighbors[key] == node2:
+            if node.neighbors[key] == nodeVal2:
                 junk = node.neighbors.pop(key)
                 break
 
@@ -109,6 +105,7 @@ class NodeGroup(object):
         self.removeNeighborOneWay(neighborVal, nodeVal)
         
     def addNode(self, pos, key=None):
+        '''Manually add a node to the nodeDict'''
         if key:
             self.nodeDict[key] = Node(pos)
         else:
@@ -118,7 +115,7 @@ class NodeGroup(object):
 
     def addHiddenNode(self, nodeVal1, nodeVal2):
         '''Add nodeVal2 as a hidden node to nodeVal1'''
-        self.nodeDict[nodeVal1].hidden.append(self.nodeDict[nodeVal1].neighbors[nodeVal2])
+        self.nodeDict[nodeVal1].hidden.append(nodeVal2)
         
     def clearAndAddHidden(self, nodeVal1, nodeVal2):
         '''Clear the hidden nodes and add a new hidden node'''
@@ -164,8 +161,8 @@ class NodeGroup(object):
     def render(self, screen):
         for node in self.nodeDict.values():
             pos1 = node.position.toTuple()
-            for nextnode in node.neighbors.values():
-                pos2 = nextnode.position.toTuple()
+            for nextnodeVal in node.neighbors.values():
+                pos2 = self.nodeDict[nextnodeVal].position.toTuple()
                 pygame.draw.line(screen, WHITE, pos1, pos2, 2)
         for node in self.nodeDict.values():
             pos1 = node.position.toTuple()
