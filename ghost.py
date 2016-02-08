@@ -33,9 +33,15 @@ class Ghost(object):
         
     def flee(self):
         self.goal = self.fleeGoal
-        if self.move.nodes.reachedGoal(HOMEBASENODE):
+        if self.reachedGoal(HOMEBASENODE):
             self.mode = SCATTER
 
+    def reachedGoal(self, nodeVal):
+        '''Check if current node is the same as nodeVal'''
+        if self.move.node == nodeVal:
+            return True
+        return False
+        
     def setGoal(self, pacman):
         if self.mode == ATTACK:
             self.speed = SPEED
