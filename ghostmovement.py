@@ -27,7 +27,7 @@ class FourWayGhost(FourWayContinuous):
                 self.chooseDirection()
 
             if self.direction != self.entity.direction:
-                self.entity.position = self.node.position
+                self.entity.position = self.nodes[self.node].position
                 self.setEntityDirection(self.direction)
             else:
                 self.setTarget(self.entity.direction)
