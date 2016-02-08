@@ -16,6 +16,7 @@ class Ghost(object):
         self.mode = SCATTER
         self.position = nodes[nodeVal].position
         self.move = FourWayGhost(nodes, nodeVal, self)
+        self.fleeGoal = self.move.nodes[HOMEBASENODE].position
         
     def checkModeChange(self, modeObj):
         if modeObj.modeChange:
@@ -31,7 +32,9 @@ class Ghost(object):
         self.goal = self.scatterGoal
         
     def flee(self):
-        self.goal = FLEEGOAL
+        self.goal = self.fleeGoal
+        if self.move.nodes.reachedGoal(HOMEBASENODE):
+            self.mode = SCATTER
 
     def setGoal(self, pacman):
         if self.mode == ATTACK:
