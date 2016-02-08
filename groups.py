@@ -27,6 +27,12 @@ class GhostGroup(object):
         self.pinky.checkModeChange(gameMode)
         self.inky.checkModeChange(gameMode)
         self.clyde.checkModeChange(gameMode)
+        
+    def checkPacmanCollision(self, pacman):
+        self.blinky.checkPacmanCollision(pacman)
+        self.pinky.checkPacmanCollision(pacman)
+        self.inky.checkPacmanCollision(pacman)
+        self.clyde.checkPacmanCollision(pacman)
 
     def setGoal(self, pacman):
         self.blinky.setGoal(pacman)
