@@ -11,7 +11,7 @@ class PacMan(object):
     def __init__(self, nodes):
         self.dim = ENTITYSIZE
         self.COLOR = YELLOW
-        self.position, nodeVal = nodes.setPacNodes()
+        self.position, nodeVal = nodes.setPacNode()
         self.speed = SPEED
         self.mover = FourWayContinuous(nodes, nodeVal, self)
         self.direction = LEFT
