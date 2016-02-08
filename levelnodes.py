@@ -55,7 +55,7 @@ class Level1Nodes(NodeGroup):
         self.addNeighborTwoWay(CLYDEHOMENODE, CLYDEHOMENODE+1)
         self.addNeighborTwoWay(CLYDEHOMENODE, CLYDEHOMENODE+2)
         
-    def leaveHomeInky(self):
+    def releaseInkyFromHome(self):
         '''Allow Inky to leave home'''
         self.clearHiddenNodes()
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
