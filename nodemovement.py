@@ -4,11 +4,12 @@ from vectors import Vector2D
 from constants import *
 
 class FourWayAbstract(object):
-    def __init__(self, node, entity):
+    def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        self.node = node
-        self.target = node
+        self.nodes = nodes
+        self.node = nodeVal
+        self.target = nodeVal
         self.entity = entity
         self.direction = STOP
         self.entity.direction = STOP
