@@ -46,6 +46,7 @@ class PelletGroup(object):
         for pellet in pList:
             collided = circleCircle(pacman, pellet)
             if collided:
+                self.numEaten += 1
                 pellet.alive = False
                 if pellet.type == POWERPELLET:
                     gameMode.setMode(FREIGHT)
