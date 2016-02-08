@@ -27,6 +27,7 @@ class PelletGroup(object):
     def __init__(self, pelletFile):
         self.file = pelletFile
         self.pelletList = []
+        self.numEaten = 0
         
     def setupPellets(self):
         '''Input a file that indicates the location of the pellets'''
