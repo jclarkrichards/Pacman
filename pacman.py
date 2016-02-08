@@ -8,12 +8,12 @@ from nodemovement3 import FourWayContinuous
 from constants import *
 
 class PacMan(object):
-    def __init__(self, position, node):
+    def __init__(self, nodes):
         self.dim = ENTITYSIZE
         self.COLOR = YELLOW
-        self.position = position
+        self.position, nodeVal = nodes.setPacNodes()
         self.speed = SPEED
-        self.mover = FourWayContinuous(node, self)
+        self.mover = FourWayContinuous(nodes, nodeVal, self)
         self.direction = LEFT
         self.radius = 8
         
