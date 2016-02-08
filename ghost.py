@@ -5,6 +5,7 @@ from pygame.locals import *
 from ghostmovement import FourWayGhost
 from constants import *
 from levelnodes import Level1Nodes
+from collision import circleCircle as collided
 
 class Ghost(object):
     def __init__(self, node):
@@ -38,6 +39,17 @@ class Ghost(object):
             self.scatter()
         elif self.mode == FREIGHT:
             self.speed = FREIGHTSPEED
+            
+    def checkPacmanCollision(self, pacman):
+        '''When Pacman and the ghosts collide'''
+        if collided(self, pacman):
+            if self.mode == FREIGHT:
+                self.sendHome()
+            else:
+                pass #Pacman dies
+            
+    def sendHome(self):
+        pass
             
     def render(self, screen):
         x, y = self.position.toTuple()
