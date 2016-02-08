@@ -29,6 +29,9 @@ class Ghost(object):
     
     def scatter(self):
         self.goal = self.scatterGoal
+        
+    def flee(self):
+        self.goal = FLEEGOAL
 
     def setGoal(self, pacman):
         if self.mode == ATTACK:
@@ -39,10 +42,14 @@ class Ghost(object):
             self.scatter()
         elif self.mode == FREIGHT:
             self.speed = FREIGHTSPEED
+        elif self.mode == FLEE:
+            self.speed = FLEESPEED
+            self.flee()
             
     def checkPacmanCollide(self, pacman):
         if collided(self, pacman):
             if self.mode == FREIGHT:
+                self.mode = FLEE
                 self.sendHome()
             else:
                 pacman.alive = False
