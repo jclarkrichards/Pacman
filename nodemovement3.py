@@ -4,10 +4,10 @@ from vectors import Vector2D
 from nodemovement import *
 
 class FourWayContinuous(FourWayAbstract):
-    def __init__(self, node, entity):
+    def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        FourWayAbstract.__init__(self, node, entity)
+        FourWayAbstract.__init__(self, nodes, nodeVal, entity)
         if self.entity.direction in self.validDirections:
             self.setEntityDirection(self.entity.direction)
 
