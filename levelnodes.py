@@ -77,18 +77,19 @@ class Level1Nodes(NodeGroup):
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
     def sendBlinkyBackHome(self):
-        self.clearHiddenNodes(BLINKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(HOMEBASENODE, 23)
         self.addHiddenNode(HOMEBASENODE, 25)
         
     def sendPinkyBackHome(self):
-        self.clearHiddenNodes(PINKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(HOMEBASENODE, 23)
         self.addHiddenNode(HOMEBASENODE, 25)
         
     def sendInkyBackHome(self):
         '''Send Inky back home.  Usually after being eaten'''
         self.clearHiddenNodes(INKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, 23)
@@ -97,6 +98,7 @@ class Level1Nodes(NodeGroup):
         def sendClydeBackHome(self):
         '''Send Inky back home.  Usually after being eaten'''
         self.clearHiddenNodes(CLYDEHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+1)
         self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, 23)
