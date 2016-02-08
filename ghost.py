@@ -34,6 +34,7 @@ class Ghost(object):
         self.goal = self.scatterGoal
         
     def flee(self):
+        '''Send ghost home after being eaten'''
         self.goal = self.fleeGoal
         if self.reachedGoal(HOMEBASENODE):
             self.mode = SCATTER
@@ -45,6 +46,7 @@ class Ghost(object):
         return False
         
     def setGoal(self, pacman):
+        '''Set the goal based on the mode'''
         if self.mode == ATTACK:
             self.speed = SPEED
             self.attack(pacman)
@@ -103,6 +105,7 @@ class Inky(Ghost):
         self.scatterGoal = INKYGOAL
         
     def setGoal(self, pacman, blinky):
+        '''Set the goal based on the mode'''
         if self.mode == ATTACK:
             self.speed = SPEED
             self.attack(pacman, blinky)
@@ -111,6 +114,9 @@ class Inky(Ghost):
             self.scatter()
         elif self.mode == FREIGHT:
             self.speed = FREIGHTSPEED
+        elif self.mode == FLEE:
+            self.speed = FLEESPEED
+            self.flee()
             
     def attack(self, pacman, blinky):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
