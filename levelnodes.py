@@ -1,3 +1,4 @@
+"""Will this update if I modify the file directly?"""
 from node import NodeGroup
 from constants import *
 
