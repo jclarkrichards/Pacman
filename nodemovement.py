@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from vectors import Vector2D
 from constants import *
-""""I like stuff!!!"""
+""""I like more stuff motherfucker!!!"""
 class FourWayAbstract(object):
     def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
