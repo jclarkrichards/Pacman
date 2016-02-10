@@ -2,12 +2,12 @@ import pygame
 from pygame.locals import *
 from vectors import Vector2D
 from constants import *
-
+""""I like stuff!!!"""
 class FourWayAbstract(object):
     def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        self.nodes = nodes
+        self.nodes = nodes.nodeDict
         self.node = nodeVal
         self.target = nodeVal
         self.entity = entity
