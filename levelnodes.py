@@ -57,10 +57,12 @@ class Level1Nodes(NodeGroup):
         
     def releaseBlinkyFromHome(self):
         self.clearHiddenNodes(BLINKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
     def releasePinkyFromHome(self):
         self.clearHiddenNodes(PINKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
     def releaseInkyFromHome(self):
