@@ -2,7 +2,7 @@ from constants import *
 
 class ModeSwitcher(object):
     def __init__(self):
-        self.setMode(SCATTER)
+        self.setMode(START)
         self.modeChange = False
 
     def update(self, dt):
