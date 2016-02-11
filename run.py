@@ -18,7 +18,6 @@ pacman = PacMan(nodes)
 clock = pygame.time.Clock()
 ghosts = GhostGroup()
 gameMode = ModeSwitcher()
-start = False
 
 pellets = PelletGroup('pellet_map.txt')
 pellets.setupPellets()
@@ -26,8 +25,8 @@ pellets.setupPellets()
     #def run(self):
 while True:
     dt = clock.tick(30) / 1000.0
-    if start:
-        gameMode.update(dt)
+    
+    gameMode.update(dt)
 
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
@@ -35,19 +34,15 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
-        elif event.type == KEYDOWN:
-            pacman.mover.keyDiscrete(event.key)
-            if event.key == K_h:
-                start = True
-    if start:
-        pellets.update(pacman, gameMode)
-        ghosts.checkModeChange(gameMode)
-        pacman.update(dt)
-        ghosts.setGoal(pacman)
-        ghosts.update(dt)
-        ghosts.checkPacmanCollide(pacman)
-        if pellets.numEaten == 40:
-            ghosts.inky.releaseFromHome()
+
+    pellets.update(pacman, gameMode)
+    ghosts.checkModeChange(gameMode)
+    pacman.update(dt)
+    ghosts.setGoal(pacman)
+    ghosts.update(dt)
+    ghosts.checkPacmanCollide(pacman)
+    if pellets.numEaten == 40:
+        ghosts.inky.releaseFromHome()
         
     screen.blit(background, (0,0))
     nodes.render(screen)
