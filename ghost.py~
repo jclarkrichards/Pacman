@@ -16,9 +16,7 @@ class Ghost(object):
         self.mode = SCATTER
         self.position = nodes[nodeVal].position
         self.move = FourWayGhost(nodes, nodeVal, self)
-        self.nodeObj = nodes
         self.fleeGoal = self.move.nodes[HOMEBASENODE].position
-        self.radius = 8
         
     def checkModeChange(self, modeObj):
         '''Change the ghosts mode if ghost is not in FLEE mode'''
@@ -40,7 +38,6 @@ class Ghost(object):
         self.goal = self.fleeGoal
         if self.reachedGoal(HOMEBASENODE):
             self.mode = SCATTER
-            self.releaseFromHome()
 
     def reachedGoal(self, nodeVal):
         '''Check if current node is the same as nodeVal'''
