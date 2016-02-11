@@ -34,9 +34,14 @@ SCATTER = 0
 ATTACK = 1
 FREIGHT = 2
 FLEE = 3
+START = 4
+PAUSE = 5
+
+#Time in seconds for each mode
 SCATTERTIME = 7
 ATTACKTIME = 20
 FREIGHTTIME = 10
+STARTTIME = 3
 
 #Direction Unit Vectors
 UP = 1
