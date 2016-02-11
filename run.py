@@ -27,7 +27,7 @@ while True:
     dt = clock.tick(30) / 1000.0
     
     gameMode.update(dt)
-
+    print gameMode.mode
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
 

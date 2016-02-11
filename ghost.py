@@ -9,15 +9,15 @@ from collision import circleCircle as collided
 
 class Ghost(object):
     def __init__(self, nodes, nodeVal):
+        self.nodeObj = nodes
         self.dim = ENTITYSIZE
         self.COLOR = BLUE
         self.speed = SPEED
         self.goal = Vector2D()
         self.mode = START
-        self.resetHomePosition(nodeVal)
+        self.resetHomePosition()
         #self.position = nodes.nodeDict[nodeVal].position
         self.move = FourWayGhost(nodes, nodeVal, self)
-        self.nodeObj = nodes
         self.fleeGoal = self.move.nodes[HOMEBASENODE].position
         self.radius = 8
         
@@ -32,7 +32,6 @@ class Ghost(object):
         
     def onStart(self):
         '''On the start of a level, or after Pacman dies'''
-        self.direction = STOP
         self.resetHomePosition()
 
     def attack(self):
@@ -105,8 +104,8 @@ class Blinky(Ghost):
     def sendHome(self):
         self.nodeObj.sendBlinkyBackHome()
         
-    def resetHomePosition(self, nodeVal):
-        self.position = self.nodeObj.nodeDict[nodeVal].position
+    def resetHomePosition(self):
+        self.position = self.nodeObj.nodeDict[HOMEBASENODE].position
 
 #==============================================================================
 class Pinky(Ghost):
@@ -125,8 +124,8 @@ class Pinky(Ghost):
     def sendHome(self):
         self.nodeObj.sendPinkyBackHome()
         
-    def resetHomePosition(self, nodeVal):
-        self.position = self.nodeObj.nodeDict[nodeVal].position
+    def resetHomePosition(self):
+        self.position = self.nodeObj.nodeDict[PINKYHOMENODE].position
 
 #==============================================================================
 class Inky(Ghost):
@@ -148,6 +147,8 @@ class Inky(Ghost):
         elif self.mode == FLEE:
             self.speed = FLEESPEED
             self.flee()
+        elif self.mode == START:
+            self.onStart()
             
     def attack(self, pacman, blinky):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
@@ -160,8 +161,8 @@ class Inky(Ghost):
     def sendHome(self):
         self.nodeObj.sendInkyBackHome()
         
-    def resetHomePosition(self, nodeVal):
-        self.position = self.nodeObj.nodeDict[nodeVal].position
+    def resetHomePosition(self):
+        self.position = self.nodeObj.nodeDict[INKYHOMENODE].position
 
 #==============================================================================
 class Clyde(Ghost):
@@ -183,6 +184,6 @@ class Clyde(Ghost):
     def sendHome(self):
         self.nodeObj.sendClydeBackHome()
         
-    def resetHomePosition(self, nodeVal):
-        self.position = self.nodeObj.nodeDict[nodeVal].position
+    def resetHomePosition(self):
+        self.position = self.nodeObj.nodeDict[CLYDEHOMENODE].position
 

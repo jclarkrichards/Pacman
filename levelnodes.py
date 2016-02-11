@@ -73,7 +73,7 @@ class Level1Nodes(NodeGroup):
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
-    def releaseClydFromHome(self):
+    def releaseClydeFromHome(self):
         self.clearHiddenNodes(CLYDEHOMENODE)
         self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+1)
