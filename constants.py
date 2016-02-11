@@ -33,9 +33,14 @@ SCATTER = 0
 ATTACK = 1
 FREIGHT = 2
 HOMEBOUND = 3
+GAMESTART = 4
+GAMEPAUSE = 5
+
+#Time in seconds for each state that requires a time
 SCATTERTIME = 7
 ATTACKTIME = 20
 FREIGHTTIME = 10
+STARTTIME = 3
 
 #Direction Unit Vectors
 UP = 1
