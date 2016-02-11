@@ -12,9 +12,10 @@ class Ghost(object):
         self.dim = ENTITYSIZE
         self.COLOR = BLUE
         self.speed = SPEED
-        self.goal = Vector2D(10*TILEWIDTH,15*TILEHEIGHT)
-        self.mode = SCATTER
-        self.position = nodes.nodeDict[nodeVal].position
+        self.goal = Vector2D()
+        self.mode = START
+        self.resetHomePosition(nodeVal)
+        #self.position = nodes.nodeDict[nodeVal].position
         self.move = FourWayGhost(nodes, nodeVal, self)
         self.nodeObj = nodes
         self.fleeGoal = self.move.nodes[HOMEBASENODE].position
@@ -28,6 +29,11 @@ class Ghost(object):
             
     def update(self, dt):
         self.move.update(dt)
+        
+    def onStart(self):
+        '''On the start of a level, or after Pacman dies'''
+        self.direction = STOP
+        self.resetHomePosition()
 
     def attack(self):
         pass
@@ -61,6 +67,8 @@ class Ghost(object):
         elif self.mode == FLEE:
             self.speed = FLEESPEED
             self.flee()
+        elif self.mode == START:
+            self.onStart()
             
     def checkPacmanCollide(self, pacman):
         if collided(self, pacman):
@@ -96,6 +104,9 @@ class Blinky(Ghost):
         
     def sendHome(self):
         self.nodeObj.sendBlinkyBackHome()
+        
+    def resetHomePosition(self, nodeVal):
+        self.position = self.nodeObj.nodeDict[nodeVal].position
 
 #==============================================================================
 class Pinky(Ghost):
@@ -113,6 +124,9 @@ class Pinky(Ghost):
         
     def sendHome(self):
         self.nodeObj.sendPinkyBackHome()
+        
+    def resetHomePosition(self, nodeVal):
+        self.position = self.nodeObj.nodeDict[nodeVal].position
 
 #==============================================================================
 class Inky(Ghost):
@@ -145,6 +159,9 @@ class Inky(Ghost):
         
     def sendHome(self):
         self.nodeObj.sendInkyBackHome()
+        
+    def resetHomePosition(self, nodeVal):
+        self.position = self.nodeObj.nodeDict[nodeVal].position
 
 #==============================================================================
 class Clyde(Ghost):
@@ -165,4 +182,7 @@ class Clyde(Ghost):
         
     def sendHome(self):
         self.nodeObj.sendClydeBackHome()
+        
+    def resetHomePosition(self, nodeVal):
+        self.position = self.nodeObj.nodeDict[nodeVal].position
 
