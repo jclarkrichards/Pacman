@@ -2,7 +2,7 @@ from constants import *
 
 class ModeSwitcher(object):
     def __init__(self):
-        self.setMode(SCATTER)
+        self.setMode(START)
         self.modeChange = False
 
     def update(self, dt):
@@ -13,6 +13,8 @@ class ModeSwitcher(object):
         elif self.mode == ATTACK and self.timeEllapsed >= ATTACKTIME:
             self.setMode(SCATTER)
         elif self.mode == FREIGHT and self.timeEllapsed >= FREIGHTTIME:
+            self.setMode(SCATTER)
+        elif self.mode == START and self.timeEllapsed >= STARTTIME:
             self.setMode(SCATTER)
 
     def setMode(self, mode):
