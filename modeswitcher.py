@@ -14,6 +14,8 @@ class ModeSwitcher(object):
             self.setMode(SCATTER)
         elif self.mode == FREIGHT and self.timeEllapsed >= FREIGHTTIME:
             self.setMode(SCATTER)
+        elif self.mode == START and self.timeEllapsed >= STARTTIME:
+            self.setMode(SCATTER)
 
     def setMode(self, mode):
         self.mode = mode
