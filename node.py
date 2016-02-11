@@ -95,9 +95,9 @@ class NodeGroup(object):
 
     def removeNeighborOneWay(self, nodeVal1, nodeVal2):
         '''Remove nodeVal2 from a nodeVal1 as a neighbor'''
-        for key in node.neighbors.keys():
-            if node.neighbors[key] == nodeVal2:
-                junk = node.neighbors.pop(key)
+        for key in self.nodeDict[nodeVal1].neighbors.keys():
+            if self.nodeDict[nodeVal1].neighbors[key] == nodeVal2:
+                junk = self.nodeDict[nodeVal1].neighbors.pop(key)
                 break
 
     def removeNeighborTwoWay(self, nodeVal, neighborVal):

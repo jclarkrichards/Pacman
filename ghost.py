@@ -14,7 +14,7 @@ class Ghost(object):
         self.speed = SPEED
         self.goal = Vector2D(10*TILEWIDTH,15*TILEHEIGHT)
         self.mode = SCATTER
-        self.position = nodes[nodeVal].position
+        self.position = nodes.nodeDict[nodeVal].position
         self.move = FourWayGhost(nodes, nodeVal, self)
         self.nodeObj = nodes
         self.fleeGoal = self.move.nodes[HOMEBASENODE].position
@@ -127,10 +127,10 @@ class Inky(Ghost):
                     
     def releaseFromHome(self):
         '''Release Inky from his home'''
-        self.move.releaseInkyFromHome()
+        self.nodeObj.releaseInkyFromHome()
         
     def sendHome(self):
-        self.move.sendInkyBackHome()
+        self.nodeObj.sendInkyBackHome()
 
 #==============================================================================
 class Clyde(Ghost):
@@ -147,8 +147,8 @@ class Clyde(Ghost):
             self.goal = CLYDEGOAL
             
     def releaseFromHome(self):
-        self.move.releaseClydeFromHome()
+        self.nodeObj.releaseClydeFromHome()
         
     def sendHome(self):
-        self.move.sendClydeBackHome()
+        self.nodeObj.sendClydeBackHome()
 

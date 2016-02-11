@@ -7,7 +7,7 @@ class FourWayAbstract(object):
     def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        self.nodes = nodes
+        self.nodes = nodes.nodeDict
         self.node = nodeVal
         self.target = nodeVal
         self.entity = entity
@@ -33,7 +33,10 @@ class FourWayAbstract(object):
         for nodeVal in self.nodes[self.node].hidden:
             for direction in self.nodes[self.node].neighbors.keys():
                 if self.nodes[self.node].neighbors[direction] == nodeVal:
-                    self.validDirections.remove(direction)
+                    try:
+                        self.validDirections.remove(direction)
+                    except ValueError:
+                        pass
     
     def setEntityDirection(self, direction):
         '''Set valid directions when in between nodes'''
@@ -48,7 +51,7 @@ class FourWayAbstract(object):
     def overshotTarget(self):
         '''Check if entity has overshot target node'''
         nodeToTarget = self.lengthFromNode(self.nodes[self.target].position)
-        nodeToSelf = self.lengthFromNode(self.nodes[self.entity].position)
+        nodeToSelf = self.lengthFromNode(self.entity.position)
         return nodeToSelf > nodeToTarget
 
     def moveTowardsTarget(self, dt):

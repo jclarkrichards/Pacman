@@ -1,4 +1,3 @@
-"""Will this update if I modify the file directly?"""
 from node import NodeGroup
 from constants import *
 
@@ -67,12 +66,14 @@ class Level1Nodes(NodeGroup):
     def releaseInkyFromHome(self):
         '''Allow Inky to leave home'''
         self.clearHiddenNodes(INKYHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+1)
         self.addHiddenNode(INKYHOMENODE, INKYHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
         
     def releaseClydFromHome(self):
         self.clearHiddenNodes(CLYDEHOMENODE)
+        self.clearHiddenNodes(HOMEBASENODE)
         self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+1)
         self.addHiddenNode(CLYDEHOMENODE, CLYDEHOMENODE+2)
         self.addHiddenNode(HOMEBASENODE, HOMECENTERNODE)
@@ -96,7 +97,7 @@ class Level1Nodes(NodeGroup):
         self.addHiddenNode(HOMEBASENODE, 23)
         self.addHiddenNode(HOMEBASENODE, 25)
         
-        def sendClydeBackHome(self):
+    def sendClydeBackHome(self):
         '''Send Inky back home.  Usually after being eaten'''
         self.clearHiddenNodes(CLYDEHOMENODE)
         self.clearHiddenNodes(HOMEBASENODE)
