@@ -33,8 +33,8 @@ SCATTER = 0
 ATTACK = 1
 FREIGHT = 2
 HOMEBOUND = 3
-GAMESTART = 4
-GAMEPAUSE = 5
+START = 4
+PAUSE = 5
 
 #Time in seconds for each state that requires a time
 SCATTERTIME = 7
