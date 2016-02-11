@@ -89,6 +89,13 @@ class Blinky(Ghost):
         
     def attack(self, pacman):
         self.goal = pacman.position
+        
+    def releaseFromHome(self):
+        '''Release Inky from his home'''
+        self.nodeObj.releaseBlinkyFromHome()
+        
+    def sendHome(self):
+        self.nodeObj.sendBlinkyBackHome()
 
 #==============================================================================
 class Pinky(Ghost):
@@ -99,6 +106,13 @@ class Pinky(Ghost):
 
     def attack(self, pacman):
         self.goal = pacman.position+DIRECTIONS[pacman.direction]*TILES4
+        
+    def releaseFromHome(self):
+        '''Release Inky from his home'''
+        self.nodeObj.releasePinkyFromHome()
+        
+    def sendHome(self):
+        self.nodeObj.sendPinkyBackHome()
 
 #==============================================================================
 class Inky(Ghost):
