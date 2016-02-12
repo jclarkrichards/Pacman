@@ -13,6 +13,7 @@ class Ghost(object):
         self.dim = ENTITYSIZE
         self.COLOR = BLUE
         self.speed = SPEED
+        self.direction = STOP
         self.goal = Vector2D()
         self.mode = START
         self.resetHomePosition()
