@@ -16,6 +16,7 @@ ENTITYSIZE = (TILEWIDTH, TILEHEIGHT)
 #Entity speeds
 SPEED = 100
 FREIGHTSPEED = 50
+FLEESPEED = 150
 
 #Ghost Constants
 TILES4 = TILEWIDTH * 4
@@ -32,11 +33,11 @@ CLYDEGOAL = Vector2D(0, HEIGHTPX-32)
 SCATTER = 0
 ATTACK = 1
 FREIGHT = 2
-HOMEBOUND = 3
+FLEE = 3
 START = 4
 PAUSE = 5
 
-#Time in seconds for each state that requires a time
+#Time in seconds for each mode
 SCATTERTIME = 7
 ATTACKTIME = 20
 FREIGHTTIME = 10

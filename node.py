@@ -8,8 +8,7 @@ class Node(object):
     def __init__(self, pos):
         self.position = Vector2D(pos)
         self.neighbors = {}
-        #self.neighbors = []
-        #self.directions = []
+        self.hidden = []
         self.COLOR = WHITE
         self.portal = None
 
@@ -81,7 +80,6 @@ class NodeGroup(object):
             
     def addNeighborOneWay(self, nodeVal1, nodeVal2):
         '''Set the node at nodeVal2 as a neighbor of node at nodeVal1'''
-        #self.nodeDict[nodeVal].neighbors.append(self.nodeDict[neighborVal])
         tempVec = self.nodeDict[nodeVal2].position - \
                   self.nodeDict[nodeVal1].position
         tempVec = tempVec.normalize()
@@ -89,34 +87,25 @@ class NodeGroup(object):
             if DIRECTIONS[key] == tempVec:
                 direction = key
                 break
-        #self.nodeDict[nodeVal].directions.append(tempVec)
-        self.nodeDict[nodeVal1].neighbors[direction] = self.nodeDict[nodeVal2]
+        self.nodeDict[nodeVal1].neighbors[direction] = nodeVal2
 
     def addNeighborTwoWay(self, nodeVal, neighborVal):
         self.addNeighborOneWay(nodeVal, neighborVal)
         self.addNeighborOneWay(neighborVal, nodeVal)
 
     def removeNeighborOneWay(self, nodeVal1, nodeVal2):
-        '''Remove a neighbor from a node'''
-        node = self.nodeDict[nodeVal1]
-        node2 = self.nodeDict[nodeVal2]
-        #tempVec = node2.position - node.position
-        #tempVec = tempVec.normalize()
-        for key in node.neighbors.keys():
-            if node.neighbors[key] == node2:
-                junk = node.neighbors.pop(key)
+        '''Remove nodeVal2 from a nodeVal1 as a neighbor'''
+        for key in self.nodeDict[nodeVal1].neighbors.keys():
+            if self.nodeDict[nodeVal1].neighbors[key] == nodeVal2:
+                junk = self.nodeDict[nodeVal1].neighbors.pop(key)
                 break
-        #     if key == tempVec:
-        #         junk = self.nodeDict[nodeVal].neighbors.pop(key)
-        #index = node.neighbors.index(node2)
-        #junk = node.neighbors.pop(index)
-        #junk = node.directions.pop(index)
 
     def removeNeighborTwoWay(self, nodeVal, neighborVal):
         self.removeNeighborOneWay(nodeVal, neighborVal)
         self.removeNeighborOneWay(neighborVal, nodeVal)
         
     def addNode(self, pos, key=None):
+        '''Manually add a node to the nodeDict'''
         if key:
             self.nodeDict[key] = Node(pos)
         else:
@@ -124,6 +113,19 @@ class NodeGroup(object):
             num += 1
             self.nodeDict[num] = Node(pos)
 
+    def addHiddenNode(self, nodeVal1, nodeVal2):
+        '''Add nodeVal2 as a hidden node to nodeVal1'''
+        self.nodeDict[nodeVal1].hidden.append(nodeVal2)
+        
+    def clearAndAddHidden(self, nodeVal1, nodeVal2):
+        '''Clear the hidden nodes and add a new hidden node'''
+        self.nodeDict[nodeVal1].hidden = []
+        self.addHiddenNode(nodeVal1, nodeVal2)
+        
+    def clearHiddenNodes(self, nodeVal):
+        '''Clear the hidden nodes'''
+        self.nodeDict[nodeVal].hidden = []
+        
     def walkRight(self, row, col):
         '''Try and find nodes to the right'''
         dx = 1
@@ -163,8 +165,8 @@ class NodeGroup(object):
     def render(self, screen):
         for node in self.nodeDict.values():
             pos1 = node.position.toTuple()
-            for nextnode in node.neighbors.values():
-                pos2 = nextnode.position.toTuple()
+            for nextnodeVal in node.neighbors.values():
+                pos2 = self.nodeDict[nextnodeVal].position.toTuple()
                 pygame.draw.line(screen, WHITE, pos1, pos2, 2)
         for node in self.nodeDict.values():
             pos1 = node.position.toTuple()

@@ -2,7 +2,7 @@
 import pygame
 from constants import *
 from numpy import loadtxt
-from collision import circleCircle
+from collision import circleCircle as collided
 
 class Pellet(object):
     def __init__(self, position):
@@ -27,6 +27,8 @@ class PelletGroup(object):
     def __init__(self, pelletFile):
         self.file = pelletFile
         self.pelletList = []
+        self.numEaten = 0
+        self.numMax = 0
         
     def setupPellets(self):
         '''Input a file that indicates the location of the pellets'''
@@ -39,12 +41,13 @@ class PelletGroup(object):
                     self.pelletList.append(Pellet(position))
                 elif layout[row][col] == 'P':
                     self.pelletList.append(PowerPellet(position))
-
+        self.numMax = len(self.pelletList)
+        
     def update(self, pacman, gameMode):
         pList = [p for p in self.pelletList if p.alive]
         for pellet in pList:
-            collided = circleCircle(pacman, pellet)
-            if collided:
+            if collided(pacman, pellet):
+                self.numEaten += 1
                 pellet.alive = False
                 if pellet.type == POWERPELLET:
                     gameMode.setMode(FREIGHT)

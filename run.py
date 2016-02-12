@@ -7,43 +7,54 @@ from groups import GhostGroup
 from levelnodes import Level1Nodes
 from pellets import PelletGroup
 
+#class Game(object):
+    #def __init__(self):
 pygame.init()
 screen = pygame.display.set_mode(SCREENSIZE, 0, 32)
 background = pygame.surface.Surface(SCREENSIZE).convert()
 background.fill(BLACK)
 nodes = Level1Nodes()
-pacman = PacMan(*nodes.setPacNode())
+pacman = PacMan(nodes)
 clock = pygame.time.Clock()
 ghosts = GhostGroup()
 gameMode = ModeSwitcher()
-start = False
 
 pellets = PelletGroup('pellet_map.txt')
 pellets.setupPellets()
-
+        
+    #def run(self):
 while True:
+    print gameMode.mode, ghosts.blinky.mode, ghosts.blinky.direction
     dt = clock.tick(30) / 1000.0
-    if start:
-        gameMode.update(dt)
-
+    
+    gameMode.update(dt)
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
 
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
-        elif event.type == KEYDOWN:
-            pacman.mover.keyDiscrete(event.key)
-            if event.key == K_h:
-                start = True
-    if start:
+
+    if pellets.numEaten != pellets.numMax:
+        #gameMode.setMode(START)
+        #ghosts.blinky.direction = STOP
         pellets.update(pacman, gameMode)
         ghosts.checkModeChange(gameMode)
         pacman.update(dt)
         ghosts.setGoal(pacman)
         ghosts.update(dt)
+<<<<<<< HEAD
         ghosts.checkPacmanCollision(pacman)
         #pellets.checkCollision(pacman)
+=======
+        ghosts.checkPacmanCollide(pacman)
+        if pellets.numEaten == 40:
+            ghosts.inky.releaseFromHome()
+    else:
+        gameMode.setMode(START)
+        ghosts.checkModeChange(gameMode)
+        ghosts.setGoal(pacman)
+>>>>>>> code-edits2
         
     screen.blit(background, (0,0))
     nodes.render(screen)
@@ -51,4 +62,7 @@ while True:
     pacman.render(screen)
     ghosts.render(screen)
     pygame.display.update()
+            
+#game = Game()
+#game.run()
 

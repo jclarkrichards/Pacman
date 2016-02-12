@@ -4,19 +4,40 @@ from vectors import Vector2D
 from constants import *
 '''Poopy pants'''
 class FourWayAbstract(object):
-    def __init__(self, node, entity):
+    def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        self.node = nodeDict
-        self.target = node
+        self.nodes = nodes.nodeDict
+        self.node = nodeVal
+        self.target = nodeVal
         self.entity = entity
         self.direction = STOP
         self.entity.direction = STOP
-        self.validDirections = self.node.neighbors.keys()
+        #self.setValidNodeVals(nodeVal)
+        self.setValidDirections()
+        #self.validDirections = self.nodes[nodeVal].neighbors.keys()
 
     def update(self, dt):
         pass
 
+    def setValidNodeVals(self, nodeVal):
+        '''Set the valid node values that the entity is allowed to move'''
+        self.validValues = self.nodes[nodeVal].neighbors.values()
+        for val in self.nodes[nodeVal].hidden:
+            if val in self.validValues:
+                self.validValues.remove(val)
+        
+    def setValidDirections(self):
+        '''Set the valid directions that the entity is allowed to move'''
+        self.validDirections = self.nodes[self.node].neighbors.keys()
+        for nodeVal in self.nodes[self.node].hidden:
+            for direction in self.nodes[self.node].neighbors.keys():
+                if self.nodes[self.node].neighbors[direction] == nodeVal:
+                    try:
+                        self.validDirections.remove(direction)
+                    except ValueError:
+                        pass
+    
     def setEntityDirection(self, direction):
         '''Set valid directions when in between nodes'''
         self.entity.direction = direction
@@ -24,12 +45,12 @@ class FourWayAbstract(object):
         self.validDirections = [direction, direction*-1]
         
     def lengthFromNode(self, vector):
-        vec = vector - self.node.position
+        vec = vector - self.nodes[self.node].position
         return vec.magnitudeSquared()
 
     def overshotTarget(self):
         '''Check if entity has overshot target node'''
-        nodeToTarget = self.lengthFromNode(self.target.position)
+        nodeToTarget = self.lengthFromNode(self.nodes[self.target].position)
         nodeToSelf = self.lengthFromNode(self.entity.position)
         return nodeToSelf > nodeToTarget
 
@@ -40,7 +61,7 @@ class FourWayAbstract(object):
 
     def setTarget(self, direction):
         '''Set a new target based on the direction'''
-        self.target = self.node.neighbors[direction]
+        self.target = self.nodes[self.node].neighbors[direction]
         
     def reverseDirection(self):
         '''Swap the node and target'''
@@ -50,16 +71,18 @@ class FourWayAbstract(object):
         self.entity.direction *= -1
 
     def removeOppositeDirection(self):
-        self.validDirections = self.node.neighbors.keys()
+        self.setValidDirections()
+        #self.validDirections = self.node.neighbors.keys()
         if self.entity.direction*-1 in self.validDirections:
             if len(self.validDirections) > 1:
                 self.validDirections.remove(self.entity.direction*-1)
 
     def portal(self):
-        if self.node.portal:
-            self.node = self.node.portal
-            self.entity.position = self.node.position
-            self.validDirections = self.node.neighbors.keys()
+        if self.nodes[self.node].portal:
+            self.node = self.nodes[self.node].portal
+            self.entity.position = self.nodes[self.node].position
+            self.setValidDirections()
+            #self.validDirections = self.nodes[self.node].neighbors.keys()
             
     def keyContinuous(self, key):
         '''Listen for directional key presses'''

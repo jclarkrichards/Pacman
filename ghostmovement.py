@@ -6,10 +6,10 @@ from constants import *
 from random import randint
 
 class FourWayGhost(FourWayContinuous):
-    def __init__(self, node, entity):
+    def __init__(self, nodes, nodeVal, entity):
         '''node is the starting node.  All other nodes are connected
         entity is the entity that travels from node to node'''
-        FourWayContinuous.__init__(self, node, entity)
+        FourWayContinuous.__init__(self, nodes, nodeVal, entity)
         self.chooseDirection()
         self.setEntityDirection(self.direction)
         
@@ -27,7 +27,7 @@ class FourWayGhost(FourWayContinuous):
                 self.chooseDirection()
 
             if self.direction != self.entity.direction:
-                self.entity.position = self.node.position
+                self.entity.position = self.nodes[self.node].position
                 self.setEntityDirection(self.direction)
             else:
                 self.setTarget(self.entity.direction)
@@ -39,6 +39,7 @@ class FourWayGhost(FourWayContinuous):
         pass
     
     def chooseDirection(self):
+        '''Choose a direction that brings the entity closer to the goal'''
         if len(self.validDirections) > 1:
             d = []
             for direction in self.validDirections:
