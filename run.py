@@ -43,10 +43,6 @@ while True:
         pacman.update(dt)
         ghosts.setGoal(pacman)
         ghosts.update(dt)
-<<<<<<< HEAD
-        ghosts.checkPacmanCollision(pacman)
-        #pellets.checkCollision(pacman)
-=======
         ghosts.checkPacmanCollide(pacman)
         if pellets.numEaten == 40:
             ghosts.inky.releaseFromHome()
@@ -54,7 +50,7 @@ while True:
         gameMode.setMode(START)
         ghosts.checkModeChange(gameMode)
         ghosts.setGoal(pacman)
->>>>>>> code-edits2
+
         
     screen.blit(background, (0,0))
     nodes.render(screen)
