@@ -33,6 +33,7 @@ class Ghost(object):
     def onStart(self):
         '''On the start of a level, or after Pacman dies'''
         self.resetHomePosition()
+        self.speed = 0
 
     def attack(self):
         pass

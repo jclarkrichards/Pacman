@@ -28,6 +28,7 @@ class PelletGroup(object):
         self.file = pelletFile
         self.pelletList = []
         self.numEaten = 0
+        self.numMax = 0
         
     def setupPellets(self):
         '''Input a file that indicates the location of the pellets'''
@@ -40,7 +41,8 @@ class PelletGroup(object):
                     self.pelletList.append(Pellet(position))
                 elif layout[row][col] == 'P':
                     self.pelletList.append(PowerPellet(position))
-
+        self.numMax = len(self.pelletList)
+        
     def update(self, pacman, gameMode):
         pList = [p for p in self.pelletList if p.alive]
         for pellet in pList:

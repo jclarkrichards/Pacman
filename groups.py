@@ -45,6 +45,9 @@ class GhostGroup(object):
         nodes.adjustGhostNodes()
         nodes.setHomeNodes()
         return nodes
+
+    def reset(self):
+        pass
     
     def render(self, screen):
         self.blinky.render(screen)

@@ -24,10 +24,10 @@ pellets.setupPellets()
         
     #def run(self):
 while True:
+    print gameMode.mode, ghosts.blinky.mode, ghosts.blinky.direction
     dt = clock.tick(30) / 1000.0
     
     gameMode.update(dt)
-    print gameMode.mode
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
 
@@ -35,14 +35,21 @@ while True:
         if event.type == QUIT:
             exit()
 
-    pellets.update(pacman, gameMode)
-    ghosts.checkModeChange(gameMode)
-    pacman.update(dt)
-    ghosts.setGoal(pacman)
-    ghosts.update(dt)
-    ghosts.checkPacmanCollide(pacman)
-    if pellets.numEaten == 40:
-        ghosts.inky.releaseFromHome()
+    if pellets.numEaten != pellets.numMax:
+        #gameMode.setMode(START)
+        #ghosts.blinky.direction = STOP
+        pellets.update(pacman, gameMode)
+        ghosts.checkModeChange(gameMode)
+        pacman.update(dt)
+        ghosts.setGoal(pacman)
+        ghosts.update(dt)
+        ghosts.checkPacmanCollide(pacman)
+        if pellets.numEaten == 40:
+            ghosts.inky.releaseFromHome()
+    else:
+        gameMode.setMode(START)
+        ghosts.checkModeChange(gameMode)
+        ghosts.setGoal(pacman)
         
     screen.blit(background, (0,0))
     nodes.render(screen)
