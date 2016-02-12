@@ -1,3 +1,5 @@
+"""Keeps track of how much time has passed in each mode and will switch the mode if the time exceeds the allowed mode time.  
+Can also switch modes early with setMode"""
 from constants import *
 
 class ModeSwitcher(object):
