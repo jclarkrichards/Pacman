@@ -2,37 +2,41 @@
 """Creates the four ghost objects and handles them as a whole"""
 from constants import *
 from ghost import *
+from levelnodes import *
 
 class GhostGroup(object):
     def __init__(self):
-        blinkyNodes = self.setNodes()
-        pinkyNodes = self.setNodes()
-        inkyNodes = self.setNodes()
-        clydeNodes = self.setNodes()
-        inkyNodes.setInkyNodes()
-        clydeNodes.setClydeNodes()
-        self.blinky = Blinky(blinkyNodes)
-        self.pinky = Pinky(pinkyNodes)
-        self.inky = Inky(inkyNodes)
-        self.clyde = Clyde(clydeNodes)
+        blinky, pinky, inky, clyde = self.createNodes()
+        inky.additionalNodes()
+        clyde.additionalNodes()
+        self.blinky = Blinky(blinky)
+        self.pinky = Pinky(pinky)
+        self.inky = Inky(inky)
+        self.clyde = Clyde(clyde)
+        self.members = [self.blinky, self.pinky, self.inky, self.clyde]
 
+    def createNodes(self):
+        nodelist = []
+        nodelist.append(Level1NodesBlinky())
+        nodelist.append(Level1NodesPinky())
+        nodelist.append(Level1NodesInky())
+        nodelist.append(Level1NodesClyde())
+        for nodes in nodelist:
+            nodes.removeNodeLinks()
+            nodes.setHomeNodes()
+        return nodelist
+    
     def update(self, dt):
-        self.blinky.update(dt)
-        self.pinky.update(dt)
-        self.inky.update(dt)
-        self.clyde.update(dt)
+        for ghost in self.members:
+            ghost.update(dt)
 
     def checkModeChange(self, gameMode):
-        self.blinky.checkModeChange(gameMode)
-        self.pinky.checkModeChange(gameMode)
-        self.inky.checkModeChange(gameMode)
-        self.clyde.checkModeChange(gameMode)
+        for ghost in self.members:
+            ghost.checkModeChange(gameMode)
         
     def checkPacmanCollide(self, pacman):
-        self.blinky.checkPacmanCollide(pacman)
-        self.pinky.checkPacmanCollide(pacman)
-        self.inky.checkPacmanCollide(pacman)
-        self.clyde.checkPacmanCollide(pacman)
+        for ghost in self.members:
+            ghost.checkPacmanCollide(pacman)
 
     def setGoal(self, pacman):
         self.blinky.setGoal(pacman)
@@ -40,17 +44,16 @@ class GhostGroup(object):
         self.inky.setGoal(pacman, self.blinky)
         self.clyde.setGoal(pacman)
 
-    def setNodes(self):
-        nodes = Level1Nodes()
-        nodes.adjustGhostNodes()
-        nodes.setHomeNodes()
-        return nodes
-
+    def reverseDirection(self):
+        for ghost in self.members:
+            ghost.move.reverseDirection()
+            
     def reset(self):
-        pass
-    
+        for ghost in self.members:
+            ghost.reset()
+            
     def render(self, screen):
-        self.blinky.render(screen)
-        self.pinky.render(screen)
-        self.inky.render(screen)
-        self.clyde.render(screen)
+        '''Draw all of the ghosts'''
+        for ghost in self.members:
+            ghost.render(screen)
+

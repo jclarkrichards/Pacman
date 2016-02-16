@@ -12,7 +12,7 @@ class FourWayAbstract(object):
         self.target = nodeVal
         self.entity = entity
         self.direction = STOP
-        self.entity.direction = STOP
+        #self.entity.direction = STOP
         #self.setValidNodeVals(nodeVal)
         self.setValidDirections()
         #self.validDirections = self.nodes[nodeVal].neighbors.keys()

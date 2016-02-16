@@ -23,3 +23,23 @@ class ModeSwitcher(object):
         self.mode = mode
         self.modeChange = True
         self.timeEllapsed = 0
+
+    def reset(self):
+        '''Reset to initial conditions'''
+        self.setMode(START)
+        self.modeChange = False
+        
+
+class Attack(object):
+    def __init__(self):
+        self.speed = ATTACKSPEED
+        self.timeLimit = ATTACKTIME
+        
+    def enter(self):
+        pass
+
+    def exit(self):
+        pass
+
+    def setGoal(self):
+        pass

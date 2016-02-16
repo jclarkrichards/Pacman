@@ -2,24 +2,26 @@
 import pygame
 from vectors import Vector2D
 from pygame.locals import *
-#from nodemovement1 import FourWayJump
-#from nodemovement2 import FourWayDiscrete
 from nodemovement3 import FourWayContinuous
 from constants import *
 
 class PacMan(object):
     def __init__(self, nodes):
-        self.dim = ENTITYSIZE
+        self.nodes = nodes
         self.COLOR = YELLOW
-        self.position, nodeVal = nodes.setPacNode()
-        self.speed = SPEED
-        self.mover = FourWayContinuous(nodes, nodeVal, self)
-        self.direction = LEFT
+        #self.direction = LEFT
+        self.reset()
         self.radius = 8
-        self.alive = True
         
     def update(self, dt):
         self.mover.update(dt)
+
+    def reset(self):
+        self.direction = LEFT
+        self.position, nodeVal = self.nodes.setPacNode()
+        self.mover = FourWayContinuous(self.nodes, nodeVal, self)
+        self.speed = SPEED
+        self.alive = True
         
     def render(self, screen):
         x, y = self.position.toTuple()

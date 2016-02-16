@@ -4,24 +4,33 @@ from vectors import Vector2D
 from pygame.locals import *
 from ghostmovement import FourWayGhost
 from constants import *
-from levelnodes import Level1Nodes
 from collision import circleCircle as collided
 
 class Ghost(object):
-    def __init__(self, nodes, nodeVal):
-        self.nodeObj = nodes
-        self.dim = ENTITYSIZE
+    def __init__(self, nodes):
+        self.nodes = nodes
         self.COLOR = BLUE
         self.speed = SPEED
-        self.direction = STOP
+        #self.direction = STOP
         self.goal = Vector2D()
-        self.mode = START
-        self.resetHomePosition()
-        #self.position = nodes.nodeDict[nodeVal].position
-        self.move = FourWayGhost(nodes, nodeVal, self)
-        self.fleeGoal = self.move.nodes[HOMEBASENODE].position
+        #self.mode = START
+        self.reset()
+        #self.move = FourWayGhost(nodes, self.nodes.home, self)
+        self.fleeGoal = self.move.nodes[self.nodes.base].position
         self.radius = 8
-        
+        self.released = False
+
+    def reset(self):
+        '''Reset ghost to initial conditions'''
+        self.nodes.reset()
+        self.direction = STOP
+        self.position = self.nodes.resetHomePosition()
+        self.move = FourWayGhost(self.nodes, self.nodes.home, self)
+        self.speed = SPEED
+        self.mode = START
+        self.alive = True
+        self.released = False
+
     def checkModeChange(self, modeObj):
         '''Change the ghosts mode if ghost is not in FLEE mode'''
         if modeObj.modeChange:
@@ -31,11 +40,6 @@ class Ghost(object):
     def update(self, dt):
         self.move.update(dt)
         
-    def onStart(self):
-        '''On the start of a level, or after Pacman dies'''
-        self.resetHomePosition()
-        self.speed = 0
-
     def attack(self):
         pass
     
@@ -45,7 +49,7 @@ class Ghost(object):
     def flee(self):
         '''Send ghost home after being eaten'''
         self.goal = self.fleeGoal
-        if self.reachedGoal(HOMEBASENODE):
+        if self.reachedGoal(self.nodes.base):
             self.mode = SCATTER
             self.releaseFromHome()
 
@@ -68,10 +72,11 @@ class Ghost(object):
         elif self.mode == FLEE:
             self.speed = FLEESPEED
             self.flee()
-        elif self.mode == START:
-            self.onStart()
-            
+        #elif self.mode == START:
+        #    self.reset()
+
     def checkPacmanCollide(self, pacman):
+        '''Check for collision between Pacman and self'''
         if collided(self, pacman):
             if self.mode == FREIGHT:
                 self.mode = FLEE
@@ -80,61 +85,48 @@ class Ghost(object):
                 pacman.alive = False
             
     def sendHome(self):
-        pass
-            
+        self.nodes.sendHome()
+
+    def releaseFromHome(self):
+        self.nodes.releaseFromHome()
+
     def render(self, screen):
         x, y = self.position.toTuple()
         pygame.draw.circle(screen, self.COLOR, (int(x), int(y)), 8)
         #screen.blit(self.frameset[self.iframe], (x-16, y-16))
 
+        
 #==============================================================================
 # INSTANCES OF THE GHOST CLASS:  BLINKY, PINKY, INKY, CLYDE
 #==============================================================================
 class Blinky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes, HOMEBASENODE)
+        Ghost.__init__(self, nodes)
         self.COLOR = RED
         self.scatterGoal = BLINKYGOAL
+        self.valueForRelease = 0
         
     def attack(self, pacman):
         self.goal = pacman.position
         
-    def releaseFromHome(self):
-        '''Release Inky from his home'''
-        self.nodeObj.releaseBlinkyFromHome()
-        
-    def sendHome(self):
-        self.nodeObj.sendBlinkyBackHome()
-        
-    def resetHomePosition(self):
-        self.position = self.nodeObj.nodeDict[HOMEBASENODE].position
-
 #==============================================================================
 class Pinky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes, PINKYHOMENODE)
+        Ghost.__init__(self, nodes)
         self.COLOR = PINK
         self.scatterGoal = PINKYGOAL
-
+        self.valueForRelease = 0
+        
     def attack(self, pacman):
         self.goal = pacman.position+DIRECTIONS[pacman.direction]*TILES4
         
-    def releaseFromHome(self):
-        '''Release Inky from his home'''
-        self.nodeObj.releasePinkyFromHome()
-        
-    def sendHome(self):
-        self.nodeObj.sendPinkyBackHome()
-        
-    def resetHomePosition(self):
-        self.position = self.nodeObj.nodeDict[PINKYHOMENODE].position
-
 #==============================================================================
 class Inky(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes, INKYHOMENODE)
+        Ghost.__init__(self, nodes)
         self.COLOR = BLUE
         self.scatterGoal = INKYGOAL
+        self.valueForRelease = 40
         
     def setGoal(self, pacman, blinky):
         '''Set the goal based on the mode'''
@@ -149,29 +141,22 @@ class Inky(Ghost):
         elif self.mode == FLEE:
             self.speed = FLEESPEED
             self.flee()
-        elif self.mode == START:
-            self.onStart()
+        #elif self.mode == START:
+        #    self.onStart()
             
     def attack(self, pacman, blinky):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
                     - blinky.position
-                    
-    def releaseFromHome(self):
-        '''Release Inky from his home'''
-        self.nodeObj.releaseInkyFromHome()
-        
-    def sendHome(self):
-        self.nodeObj.sendInkyBackHome()
-        
-    def resetHomePosition(self):
-        self.position = self.nodeObj.nodeDict[INKYHOMENODE].position
 
+    def resetMore(self):
+        self.direction = UP
 #==============================================================================
 class Clyde(Ghost):
     def __init__(self, nodes):
-        Ghost.__init__(self, nodes, CLYDEHOMENODE)
+        Ghost.__init__(self, nodes)
         self.COLOR = TEAL
         self.scatterGoal = CLYDEGOAL
+        self.valueForRelease = 80
         
     def attack(self, pacman):
         pDiff = self.position - pacman.position
@@ -180,12 +165,4 @@ class Clyde(Ghost):
         else:
             self.goal = CLYDEGOAL
             
-    def releaseFromHome(self):
-        self.nodeObj.releaseClydeFromHome()
-        
-    def sendHome(self):
-        self.nodeObj.sendClydeBackHome()
-        
-    def resetHomePosition(self):
-        self.position = self.nodeObj.nodeDict[CLYDEHOMENODE].position
 

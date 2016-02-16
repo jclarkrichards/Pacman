@@ -1,7 +1,7 @@
+"""Contains values that every level uses and these values do not change"""
 from vectors import Vector2D
 
 #Setup
-MAPFILE = 'maze_test.txt'
 MAPWIDTH = 28
 MAPHEIGHT = 36
 TILEWIDTH = 16
@@ -40,7 +40,7 @@ PAUSE = 5
 #Time in seconds for each mode
 SCATTERTIME = 7
 ATTACKTIME = 20
-FREIGHTTIME = 10
+FREIGHTTIME = 5
 STARTTIME = 3
 
 #Direction Unit Vectors
@@ -53,17 +53,6 @@ STOP = 0
 DIRECTIONS = {UP:Vector2D(0,-1), DOWN:Vector2D(0,1),
               LEFT:Vector2D(-1,0), RIGHT:Vector2D(1,0),
               STOP:Vector2D()}
-#Node constants
-HOMEBASENODE = 100
-HOMECENTERNODE = HOMEBASENODE + 1
-BLINKYHOMENODE = HOMECENTERNODE
-PINKYHOMENODE = HOMECENTERNODE
-INKYHOMENODE = HOMECENTERNODE + 1
-CLYDEHOMENODE = PINKYHOMENODE + 5
-
-#Pacman starts between these two nodes
-PACSTART1 = 43
-PACSTART2 = 45
 
 POWERPELLET = True
 
