@@ -78,11 +78,12 @@ class Ghost(object):
     def checkPacmanCollide(self, pacman):
         '''Check for collision between Pacman and self'''
         if collided(self, pacman):
-            if self.mode == FREIGHT:
-                self.mode = FLEE
-                self.sendHome()
-            else:
-                pacman.alive = False
+            if self.mode != FLEE:
+                if self.mode == FREIGHT:
+                    self.mode = FLEE
+                    self.sendHome()
+                else:
+                    pacman.alive = False
             
     def sendHome(self):
         self.nodes.sendHome()

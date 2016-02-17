@@ -12,6 +12,11 @@ class Observer(object):
     def releaseGhostFromHome(self):
         pass
 
+    def checkForPacDeath(self, pacman):
+        if not pacman.alive:
+            return True
+        return False
+    
     def checkForEndGame(self, pellets):
         '''End the game if all the pellets have been eaten'''
         if pellets.numEaten == pellets.numMax:
@@ -40,5 +45,15 @@ class Observer(object):
             return True
         return False
 
+    def updateSpeed(self, pacman, ghosts):
+        '''Any speed modifiers would go here.  Or rather if there were
+        any speed modifiers then this should tell the ghosts and 
+        the ghosts will modify the speed.'''
+        pass
+        #test = ghosts.blinky.position - pacman.position
+        #if test.magnitudeSquared() <= 2400:
+        #    pacman.speed = SPEED + 50
+        #else:
+        #    pacman.speed = SPEED
 
 

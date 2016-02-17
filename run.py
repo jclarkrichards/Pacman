@@ -34,6 +34,13 @@ while True:
     gameMode.update(dt)
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
+    
+    ghosts.checkPacmanCollide(pacman)
+    if control.checkForPacDeath(pacman):
+        pacman.reset()
+        ghosts.reset()
+        gameMode.reset()
+        
     if control.checkForEndGame(pellets):
         pacman.reset()
         ghosts.reset()
@@ -46,11 +53,12 @@ while True:
         if control.doReverseGhosts(powerEaten, gameMode):
             ghosts.reverseDirection()
         ghosts.checkModeChange(gameMode)
+
+        control.updateSpeed(pacman, ghosts)
         pacman.update(dt)
         ghosts.setGoal(pacman)
         ghosts.update(dt)
         ghosts.checkPacmanCollide(pacman)
-        
 
     screen.blit(background, (0,0))
     nodes.render(screen)

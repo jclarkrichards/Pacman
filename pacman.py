@@ -12,11 +12,17 @@ class PacMan(object):
         #self.direction = LEFT
         self.reset()
         self.radius = 8
+        self.lives = 3
         
     def update(self, dt):
         self.mover.update(dt)
 
+    def resetFromDeath(self):
+        '''reset after dying'''
+        pass
+    
     def reset(self):
+        '''Set at start of game or level'''
         self.direction = LEFT
         self.position, nodeVal = self.nodes.setPacNode()
         self.mover = FourWayContinuous(self.nodes, nodeVal, self)

@@ -45,8 +45,12 @@ class GhostGroup(object):
         self.clyde.setGoal(pacman)
 
     def reverseDirection(self):
+        '''A ghost can reverse direction if released from home,
+        and is currently not fleeing'''
         for ghost in self.members:
-            ghost.move.reverseDirection()
+           if ghost.released:
+               if ghost.mode != FLEE:
+                   ghost.move.reverseDirection()
             
     def reset(self):
         for ghost in self.members:
