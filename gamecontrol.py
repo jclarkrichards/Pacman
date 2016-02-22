@@ -4,7 +4,7 @@ from constants import *
 
 class Observer(object):
     def __init__(self):
-        pass
+        self.timePassed = 0
 
     def sendGhostHome(self):
         pass
@@ -23,8 +23,10 @@ class Observer(object):
             return True
         return False
 
-    def startGame(self, mode):
-        if mode != START:
+    def startGame(self, dt): #mode):
+        self.timePassed += dt
+        if self.timePassed >= 3:
+        #if mode != START:
             return True
         return False
 
@@ -36,14 +38,14 @@ class Observer(object):
                 ghost.releaseFromHome()
                 ghost.released = True
 
-    def doReverseGhosts(self, powerEaten, mode):
-        '''Tell the ghosts to reverse direction if a power pellet
-        was eaten or a mode change to attack occurred.'''
-        if powerEaten or (mode.mode == ATTACK and mode.modeChange == True):
-            if powerEaten:
-                mode.setMode(FREIGHT)
-            return True
-        return False
+    #def doReverseGhosts(self, powerEaten, mode):
+    #    '''Tell the ghosts to reverse direction if a power pellet
+    #    was eaten or a mode change to attack occurred.'''
+    #    if powerEaten or (mode.mode == ATTACK and mode.modeChange == True):
+    #        if powerEaten:
+    #            mode.setMode(FREIGHT)
+    #        return True
+    #    return False
 
     def updateSpeed(self, pacman, ghosts):
         '''Any speed modifiers would go here.  Or rather if there were
