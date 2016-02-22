@@ -36,7 +36,7 @@ class Ghost(object):
     def checkModeChange(self): #, modeObj):
         '''Change the ghosts mode if ghost is not in FLEE mode'''
         if self.modeUpdater.modeChange: #modeObj.modeChange:
-            if self.modeUpdater.modeVal != FLEE: #self.mode != FLEE:
+            if not self.modeUpdater.inFleeMode(): # != FLEE: #self.mode != FLEE:
                 #reverse direction
                 if self.released():
                     self.move.reverseDirection()
