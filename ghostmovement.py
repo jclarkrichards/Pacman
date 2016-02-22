@@ -21,7 +21,7 @@ class FourWayGhost(FourWayContinuous):
             self.removeOppositeDirection()
             self.portal()
 
-            if self.entity.mode == FREIGHT:
+            if self.entity.modeUpdater.inFreightMode(): # == FREIGHT:
                 self.chooseRandomDirection()
             else:
                 self.chooseDirection()
