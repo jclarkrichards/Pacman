@@ -59,8 +59,8 @@ class Attack(object):
             return FREIGHT
         return SCATTER
     
-    def setGoal(self, ghost, pacman=None):
-        return ghost.attack(pacman)
+    def setGoal(self, ghost, pacman, blinky=None):
+        ghost.attack(pacman, blinky)
     
 class Scatter(object):
     def __init__(self):
@@ -72,8 +72,8 @@ class Scatter(object):
             return FREIGHT
         return ATTACK
     
-    def setGoal(self, ghost, pacman=None):
-        return ghost.scatter()
+    def setGoal(self, ghost, pacman=None, blinky=None):
+        ghost.scatter()
     
 class Freight(object):
     def __init__(self):
@@ -83,8 +83,8 @@ class Freight(object):
     def setNextMode(self, powerPellet=False):
         return SCATTER
     
-    def setGoal(self, ghost, pacman=None):
-        return ghost.freight()
+    def setGoal(self, ghost, pacman=None, blinky=None):
+        ghost.freight()
     
 class Flee(object):
     def __init__(self):
@@ -94,5 +94,5 @@ class Flee(object):
     def setNextMode(self, powerPellet=False):
         return SCATTER
 
-    def setGoal(self, ghost, pacman=None):
-        return ghost.flee()
+    def setGoal(self, ghost, pacman=None, blinky=None):
+        ghost.flee()
