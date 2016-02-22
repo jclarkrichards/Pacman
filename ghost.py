@@ -43,6 +43,7 @@ class Ghost(object):
                 #self.mode = modeObj.mode
             
     def update(self, dt):
+        self.speed = self.modeUpdater.mode.speed
         self.move.update(dt)
         
     def attack(self):
