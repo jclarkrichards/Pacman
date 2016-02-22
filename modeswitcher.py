@@ -38,9 +38,10 @@ class ModeSwitcher(object):
 
     def overideMode(self):
         '''Set the mode to FLEE only if the mode is in FREIGHT'''
-        if self.modeVal == FREIGHT:
-            self.setMode(FLEE)
-            return True
+        if self.modeVal != FLEE:
+            if self.modeVal == FREIGHT:
+                self.setMode(FLEE)
+                return True
         return False
         
     def reset(self):
