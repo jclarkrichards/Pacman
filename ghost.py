@@ -29,15 +29,17 @@ class Ghost(object):
         self.position = self.nodes.resetHomePosition()
         self.move = FourWayGhost(self.nodes, self.nodes.home, self)
         self.speed = SPEED
-        self.mode = START
+        #self.mode = START
         self.alive = True
         self.released = False
 
-    def checkModeChange(self, modeObj):
+    def checkModeChange(self): #, modeObj):
         '''Change the ghosts mode if ghost is not in FLEE mode'''
-        if modeObj.modeChange:
-            if self.mode != FLEE:
-                self.mode = modeObj.mode
+        if self.modeUpdater.modeChange: #modeObj.modeChange:
+            if self.modeUpdater.modeVal != FLEE: #self.mode != FLEE:
+                #reverse direction
+                pass
+                #self.mode = modeObj.mode
             
     def update(self, dt):
         self.move.update(dt)
@@ -55,7 +57,8 @@ class Ghost(object):
         '''Send ghost home after being eaten'''
         self.goal = self.fleeGoal
         if self.reachedGoal(self.nodes.base):
-            self.mode = SCATTER
+            #self.mode = SCATTER
+            self.modeUpdater.setMode(self.modeUpdater.mode.setNextMode())
             self.releaseFromHome()
 
     def reachedGoal(self, nodeVal):
@@ -83,14 +86,15 @@ class Ghost(object):
         #    self.reset()
 
     def checkPacmanCollide(self, pacman):
-        '''Check for collision between Pacman and self'''
+        '''Check for collision between Pacman and ghost'''
         if collided(self, pacman):
-            if self.mode != FLEE:
-                if self.mode == FREIGHT:
-                    self.mode = FLEE
-                    self.sendHome()
-                else:
-                    pacman.alive = False
+            self.modeUpdater.overideMode(pacman)
+            #if self.mode != FLEE:
+            #    if self.mode == FREIGHT:
+            #        self.mode = FLEE
+            #        self.sendHome()
+            #    else:
+            #        pacman.alive = False
             
     def sendHome(self):
         self.nodes.sendHome()
