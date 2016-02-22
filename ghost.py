@@ -5,6 +5,7 @@ from pygame.locals import *
 from ghostmovement import FourWayGhost
 from constants import *
 from collision import circleCircle as collided
+from modeswitcher import ModeSwitcher
 
 class Ghost(object):
     def __init__(self, nodes):
@@ -19,6 +20,7 @@ class Ghost(object):
         self.fleeGoal = self.move.nodes[self.nodes.base].position
         self.radius = 8
         self.released = False
+        self.modeUpdater = ModeSwitcher()
 
     def reset(self):
         '''Reset ghost to initial conditions'''
