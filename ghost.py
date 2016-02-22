@@ -89,7 +89,10 @@ class Ghost(object):
     def checkPacmanCollide(self, pacman):
         '''Check for collision between Pacman and ghost'''
         if collided(self, pacman):
-            self.modeUpdater.overideMode(pacman)
+            if self.modeUpdater.overideMode():
+                self.sendHome()
+            else:
+                pacman.alive = False
             #if self.mode != FLEE:
             #    if self.mode == FREIGHT:
             #        self.mode = FLEE
@@ -161,8 +164,8 @@ class Inky(Ghost):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
                     - blinky.position
 
-    def resetMore(self):
-        self.direction = UP
+    #def resetMore(self):
+    #    self.direction = UP
 #==============================================================================
 class Clyde(Ghost):
     def __init__(self, nodes):
