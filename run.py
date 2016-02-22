@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from pacman import PacMan
 from constants import *
-from modeswitcher import ModeSwitcher
+#from modeswitcher import ModeSwitcher
 from groups import GhostGroup
 from levelnodes import Level1NodesPacMan
 from pellets import PelletGroup
@@ -18,7 +18,7 @@ nodes = Level1NodesPacMan() #similar for level2, 3, 4, etc...
 pacman = PacMan(nodes)
 clock = pygame.time.Clock()
 ghosts = GhostGroup()
-gameMode = ModeSwitcher()
+#gameMode = ModeSwitcher()
 
 pellets = PelletGroup('pellet_map.txt')
 pellets.setupPellets()
@@ -31,7 +31,8 @@ while True:
             exit()
             
     dt = clock.tick(30) / 1000.0
-    gameMode.update(dt)
+    #gameMode.update(dt)
+    
     key_pressed = pygame.key.get_pressed()
     pacman.mover.keyContinuous(key_pressed)
     
@@ -47,16 +48,17 @@ while True:
         gameMode.reset()
         pellets.reset()
         
-    if control.startGame(gameMode.mode):
+    if control.startGame(dt): #gameMode.mode):
         control.checkForRelease(ghosts.members, pellets.numEaten)
         powerEaten = pellets.checkCollided(pacman)
-        if control.doReverseGhosts(powerEaten, gameMode):
-            ghosts.reverseDirection()
-        ghosts.checkModeChange(gameMode)
+        #if control.doReverseGhosts(powerEaten, gameMode):
+        #    ghosts.reverseDirection()
+        ghosts.modeUpdate(dt, powerEaten)
+        #ghosts.checkModeChange() #gameMode) #reverse the ghosts here if the mode changed.  Part of mode update?
 
-        control.updateSpeed(pacman, ghosts)
+        control.updateSpeed(pacman, ghosts) #based on mode or other factors
         pacman.update(dt)
-        ghosts.setGoal(pacman)
+        #ghosts.setGoal(pacman) #Should be a part of the ghosts mode update?
         ghosts.update(dt)
         ghosts.checkPacmanCollide(pacman)
 
