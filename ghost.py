@@ -48,6 +48,9 @@ class Ghost(object):
     def scatter(self):
         self.goal = self.scatterGoal
         
+    def freight(self):
+        pass
+        
     def flee(self):
         '''Send ghost home after being eaten'''
         self.goal = self.fleeGoal
@@ -63,17 +66,19 @@ class Ghost(object):
         
     def setGoal(self, pacman):
         '''Set the goal based on the mode'''
-        if self.mode == ATTACK:
-            self.speed = SPEED
-            self.attack(pacman)
-        elif self.mode == SCATTER:
-            self.speed = SPEED
-            self.scatter()
-        elif self.mode == FREIGHT:
-            self.speed = FREIGHTSPEED
-        elif self.mode == FLEE:
-            self.speed = FLEESPEED
-            self.flee()
+        self.modeUpdater.mode.setGoal(pacman, blinky)
+        
+        #if self.mode == ATTACK:
+        #    self.speed = SPEED
+        #    self.attack(pacman)
+        #elif self.mode == SCATTER:
+        #    self.speed = SPEED
+        #    self.scatter()
+        #elif self.mode == FREIGHT:
+        #    self.speed = FREIGHTSPEED
+        #elif self.mode == FLEE:
+        #    self.speed = FLEESPEED
+        #    self.flee()
         #elif self.mode == START:
         #    self.reset()
 
@@ -131,19 +136,19 @@ class Inky(Ghost):
         self.scatterGoal = INKYGOAL
         self.valueForRelease = 40
         
-    def setGoal(self, pacman, blinky):
-        '''Set the goal based on the mode'''
-        if self.mode == ATTACK:
-            self.speed = SPEED
-            self.attack(pacman, blinky)
-        elif self.mode == SCATTER:
-            self.speed = SPEED
-            self.scatter()
-        elif self.mode == FREIGHT:
-            self.speed = FREIGHTSPEED
-        elif self.mode == FLEE:
-            self.speed = FLEESPEED
-            self.flee()
+    #def setGoal(self, pacman, blinky):
+    #    '''Set the goal based on the mode'''
+    #    if self.mode == ATTACK:
+    #        self.speed = SPEED
+    #        self.attack(pacman, blinky)
+    #    elif self.mode == SCATTER:
+    #        self.speed = SPEED
+    ##        self.scatter()
+    # #   elif self.mode == FREIGHT:
+    #        self.speed = FREIGHTSPEED
+    #    elif self.mode == FLEE:
+    #        self.speed = FLEESPEED
+    #        self.flee()
         #elif self.mode == START:
         #    self.onStart()
             
