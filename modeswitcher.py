@@ -4,17 +4,23 @@ from constants import *
 
 class ModeSwitcher(object):
     def __init__(self):
+        self.modes = {ATTACK:Attack(), SCATTER:Scatter(), FREIGHT:Freight(), FLEE:Flee()}
+        self.modeVal = SCATTER
         self.mode = None
         self.timeEllapsed = 0
-        self.modes = {ATTACK:Attack(), SCATTER:Scatter(), FREIGHT:Freight(), FLEE:Flee(), START: Start()}
-        self.setMode(START)
+        self.setMode(self.modeVal) #START)
         self.modeChange = False
 
-    def update(self, dt, powerPellet=False):
+    def update(self, dt, powerPellet=False, reachedHome=False):
         self.timeEllapsed += dt
         self.modeChange = False
-        if self.timeEllapsed >= self.mode.time:
-            self.setMode(self.mode.setNextMode(powerPellet))
+        if self.modeVal != FLEE:
+            if self.timeEllapsed >= self.mode.time:
+                self.setMode(self.mode.setNextMode(powerPellet))
+        else:
+            if reachedHome:
+                self.setMode(self.mode.setNextMode())
+                
         #if self.mode == SCATTER and self.timeEllapsed >= SCATTERTIME:
         #    self.setMode(ATTACK)
         #elif self.mode == ATTACK and self.timeEllapsed >= ATTACKTIME:
@@ -25,23 +31,23 @@ class ModeSwitcher(object):
         #    self.setMode(SCATTER)
 
     def setMode(self, mode):
+        self.modeVal = mode
         self.mode = self.modes[mode] #mode
         self.modeChange = True
         self.timeEllapsed = 0
 
+    def overideFlee(self):
+        '''Set the mode to FLEE only if the mode is in FREIGHT'''
+        if self.modeVal == FREIGHT:
+            self.setMode(FLEE)
+        
     def reset(self):
         '''Reset to initial conditions'''
-        self.setMode(START)
+        self.modeVal = SCATTER
+        self.setMode(self.modeVal) #START)
         self.modeChange = False
         
 
-class Start(object):
-    def __init__(self):
-        self.speed = 0
-        self.time = 3
-        
-    def setNextMode(self, powerPellet=False):
-        return SCATTER
 
 class Attack(object):
     def __init__(self):
@@ -74,7 +80,7 @@ class Freight(object):
 class Flee(object):
     def __init__(self):
         self.speed = 150
-        self.time = 7  #depends on ghost reaching home, not time
+        self.time = 0  #depends on ghost reaching home, not time
     
     def setNextMode(self, powerPellet=False):
-        pass
+        return SCATTER
