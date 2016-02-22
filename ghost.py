@@ -70,7 +70,7 @@ class Ghost(object):
         
     def setGoal(self, pacman, blinky=None):
         '''Set the goal based on the mode'''
-        self.modeUpdater.mode.setGoal(pacman, blinky)
+        self.modeUpdater.mode.setGoal(self, pacman, blinky)
         
         #if self.mode == ATTACK:
         #    self.speed = SPEED
