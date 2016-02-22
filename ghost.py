@@ -38,7 +38,8 @@ class Ghost(object):
         if self.modeUpdater.modeChange: #modeObj.modeChange:
             if self.modeUpdater.modeVal != FLEE: #self.mode != FLEE:
                 #reverse direction
-                pass
+                if self.released():
+                    self.move.reverseDirection()
                 #self.mode = modeObj.mode
             
     def update(self, dt):
@@ -67,7 +68,7 @@ class Ghost(object):
             return True
         return False
         
-    def setGoal(self, pacman):
+    def setGoal(self, pacman, blinky=None):
         '''Set the goal based on the mode'''
         self.modeUpdater.mode.setGoal(pacman, blinky)
         
