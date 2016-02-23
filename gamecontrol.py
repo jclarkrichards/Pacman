@@ -14,19 +14,20 @@ class Observer(object):
 
     def checkForPacDeath(self, pacman):
         if not pacman.alive:
+            self.timePassed = 0
             return True
         return False
     
     def checkForEndGame(self, pellets):
         '''End the game if all the pellets have been eaten'''
-        if pellets.numEaten == pellets.numMax:
+        if pellets.numEatenTotal == pellets.numMax:
+            self.timePassed = 0
             return True
         return False
 
-    def startGame(self, dt): #mode):
+    def startGame(self, dt):
         self.timePassed += dt
         if self.timePassed >= 3:
-        #if mode != START:
             return True
         return False
 

@@ -32,12 +32,12 @@ class GhostGroup(object):
 
     def modeUpdate(self, dt, powerPellet):
         for ghost in self.members:
-            self.ghost.modeUpdater.update(dt, powerPellet)
-        self.checkModeChange()
-        
-    def checkModeChange(self): #, gameMode):
+            ghost.modeUpdater.update(dt, powerPellet=powerPellet)
+            ghost.checkModeChange()
+
+    def checkModeChange(self):
         for ghost in self.members:
-            ghost.checkModeChange()#gameMode)
+            ghost.checkModeChange()
         
     def checkPacmanCollide(self, pacman):
         for ghost in self.members:

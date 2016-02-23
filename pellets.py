@@ -29,10 +29,12 @@ class PelletGroup(object):
         self.pelletList = []
         self.numEaten = 0
         self.numMax = 0
-
+        self.numEatenTotal = 0
+        
     def reset(self):
         '''Restore all pellets'''
         self.numEaten = 0
+        self.numEatenTotal = 0
         for pellet in self.pelletList:
             pellet.alive = True
             
@@ -56,6 +58,7 @@ class PelletGroup(object):
         for pellet in pList:
             if collided(pacman, pellet):
                 self.numEaten += 1
+                self.numEatenTotal += 1
                 pellet.alive = False
                 if pellet.type == POWERPELLET:
                     return True

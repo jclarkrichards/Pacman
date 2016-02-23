@@ -12,41 +12,39 @@ class Ghost(object):
         self.nodes = nodes
         self.COLOR = BLUE
         self.speed = SPEED
-        #self.direction = STOP
         self.goal = Vector2D()
-        #self.mode = START
+        self.modeUpdater = ModeSwitcher()
         self.reset()
-        #self.move = FourWayGhost(nodes, self.nodes.home, self)
         self.fleeGoal = self.move.nodes[self.nodes.base].position
         self.radius = 8
         self.released = False
-        self.modeUpdater = ModeSwitcher()
+        self.counter = 0
 
     def reset(self):
         '''Reset ghost to initial conditions'''
         self.nodes.reset()
-        self.direction = STOP
+        self.direction = LEFT
         self.position = self.nodes.resetHomePosition()
         self.move = FourWayGhost(self.nodes, self.nodes.home, self)
         self.speed = SPEED
-        #self.mode = START
         self.alive = True
         self.released = False
+        self.counter = 0
+        self.modeUpdater.reset()
 
-    def checkModeChange(self): #, modeObj):
+    def checkModeChange(self):
         '''Change the ghosts mode if ghost is not in FLEE mode'''
-        if self.modeUpdater.modeChange: #modeObj.modeChange:
-            if not self.modeUpdater.inFleeMode(): # != FLEE: #self.mode != FLEE:
+        if self.modeUpdater.modeChange:
+            if not self.modeUpdater.inFleeMode():
                 #reverse direction
-                if self.released():
+                if self.released:
                     self.move.reverseDirection()
-                #self.mode = modeObj.mode
             
     def update(self, dt):
         self.speed = self.modeUpdater.mode.speed
         self.move.update(dt)
         
-    def attack(self):
+    def attack(self, pacman=None, blinky=None):
         pass
     
     def scatter(self):
@@ -59,7 +57,6 @@ class Ghost(object):
         '''Send ghost home after being eaten'''
         self.goal = self.fleeGoal
         if self.reachedGoal(self.nodes.base):
-            #self.mode = SCATTER
             self.modeUpdater.setMode(self.modeUpdater.mode.setNextMode())
             self.releaseFromHome()
 
@@ -73,33 +70,15 @@ class Ghost(object):
         '''Set the goal based on the mode'''
         self.modeUpdater.mode.setGoal(self, pacman, blinky)
         
-        #if self.mode == ATTACK:
-        #    self.speed = SPEED
-        #    self.attack(pacman)
-        #elif self.mode == SCATTER:
-        #    self.speed = SPEED
-        #    self.scatter()
-        #elif self.mode == FREIGHT:
-        #    self.speed = FREIGHTSPEED
-        #elif self.mode == FLEE:
-        #    self.speed = FLEESPEED
-        #    self.flee()
-        #elif self.mode == START:
-        #    self.reset()
-
     def checkPacmanCollide(self, pacman):
         '''Check for collision between Pacman and ghost'''
         if collided(self, pacman):
-            if self.modeUpdater.overideMode():
-                self.sendHome()
-            else:
-                pacman.alive = False
-            #if self.mode != FLEE:
-            #    if self.mode == FREIGHT:
-            #        self.mode = FLEE
-            #        self.sendHome()
-            #    else:
-            #        pacman.alive = False
+            if not self.modeUpdater.inFleeMode():
+                if self.modeUpdater.inFreightMode():
+                    self.modeUpdater.overideMode()
+                    self.sendHome()
+                else:
+                    pacman.alive = False
             
     def sendHome(self):
         self.nodes.sendHome()
@@ -123,7 +102,7 @@ class Blinky(Ghost):
         self.scatterGoal = BLINKYGOAL
         self.valueForRelease = 0
         
-    def attack(self, pacman):
+    def attack(self, pacman, blinky=None):
         self.goal = pacman.position
         
 #==============================================================================
@@ -134,7 +113,7 @@ class Pinky(Ghost):
         self.scatterGoal = PINKYGOAL
         self.valueForRelease = 0
         
-    def attack(self, pacman):
+    def attack(self, pacman, blinky=None):
         self.goal = pacman.position+DIRECTIONS[pacman.direction]*TILES4
         
 #==============================================================================
@@ -143,7 +122,7 @@ class Inky(Ghost):
         Ghost.__init__(self, nodes)
         self.COLOR = BLUE
         self.scatterGoal = INKYGOAL
-        self.valueForRelease = 40
+        self.valueForRelease = 30
         
     #def setGoal(self, pacman, blinky):
     #    '''Set the goal based on the mode'''
@@ -161,21 +140,20 @@ class Inky(Ghost):
         #elif self.mode == START:
         #    self.onStart()
             
-    def attack(self, pacman, blinky):
+    def attack(self, pacman, blinky=None):
         self.goal = DIRECTIONS[pacman.direction]*TILES4 + pacman.position*2 \
                     - blinky.position
 
-    #def resetMore(self):
-    #    self.direction = UP
+
 #==============================================================================
 class Clyde(Ghost):
     def __init__(self, nodes):
         Ghost.__init__(self, nodes)
         self.COLOR = TEAL
         self.scatterGoal = CLYDEGOAL
-        self.valueForRelease = 80
+        self.valueForRelease = 60
         
-    def attack(self, pacman):
+    def attack(self, pacman, blinky=None):
         pDiff = self.position - pacman.position
         if pDiff.magnitudeSquared() >= TILES8SQ:
             self.goal = pacman.position

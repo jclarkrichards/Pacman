@@ -4,50 +4,44 @@ from constants import *
 
 class ModeSwitcher(object):
     def __init__(self):
-        self.modes = {ATTACK:Attack(), SCATTER:Scatter(), FREIGHT:Freight(), FLEE:Flee()}
+        self.modes = {ATTACK:Attack(), SCATTER:Scatter(),
+                      FREIGHT:Freight(), FLEE:Flee()}
         self.modeVal = SCATTER
         self.mode = None
         self.timeEllapsed = 0
-        self.setMode(self.modeVal) #START)
+        self.setMode(self.modeVal)
         self.modeChange = False
 
-    def update(self, dt, powerPellet=False, reachedHome=False):
+    def update(self, dt, powerPellet=False):#, reachedHome=False):
         self.timeEllapsed += dt
         self.modeChange = False
-        if self.modeVal != FLEE:
-            if self.timeEllapsed >= self.mode.time:
+        if not self.inFleeMode():
+            if (self.timeEllapsed >= self.mode.time) or powerPellet:
                 self.setMode(self.mode.setNextMode(powerPellet))
-        else:
-            if reachedHome:
-                self.setMode(self.mode.setNextMode())
+                #print self.modeVal, powerPellet
+        #else:
+        #    if reachedHome:
+        #        print reachedHome
+        #        self.setMode(self.mode.setNextMode())
                 
-        #if self.mode == SCATTER and self.timeEllapsed >= SCATTERTIME:
-        #    self.setMode(ATTACK)
-        #elif self.mode == ATTACK and self.timeEllapsed >= ATTACKTIME:
-        #    self.setMode(SCATTER)
-        #elif self.mode == FREIGHT and self.timeEllapsed >= FREIGHTTIME:
-        #    self.setMode(SCATTER)
-        #elif self.mode == START and self.timeEllapsed >= STARTTIME:
-        #    self.setMode(SCATTER)
-
     def setMode(self, mode):
         self.modeVal = mode
-        self.mode = self.modes[mode] #mode
+        self.mode = self.modes[mode]
         self.modeChange = True
         self.timeEllapsed = 0
 
     def overideMode(self):
         '''Set the mode to FLEE only if the mode is in FREIGHT'''
-        if not self.inFleeMode():
-            if self.inFreightMode():
-                self.setMode(FLEE)
-                return True
-        return False
+        self.setMode(FLEE)
+        #if not self.inFleeMode():
+        #    if self.inFreightMode():
+        #        self.setMode(FLEE)
+        #        return True
+        #return False
         
     def reset(self):
         '''Reset to initial conditions'''
-        self.modeVal = SCATTER
-        self.setMode(self.modeVal) #START)
+        self.setMode(SCATTER)
         self.modeChange = False
         
     def inFreightMode(self):
