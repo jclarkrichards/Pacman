@@ -86,6 +86,7 @@ class Ghost(object):
     def releaseFromHome(self):
         self.nodes.releaseFromHome()
 
+
     def render(self, screen):
         x, y = self.position.toTuple()
         pygame.draw.circle(screen, self.COLOR, (int(x), int(y)), 8)
